@@ -6,6 +6,7 @@ import Profile from "./pages/Profile.js";
 import NavBar from "./components/NavBar.js";
 import Dashboard from "./pages/Dashboard.js";
 
+
 const Layout = ({ children }) => {
 	return (
 		<>
