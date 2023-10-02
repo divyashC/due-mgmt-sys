@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar.js";
 import Dashboard from "./pages/Dashboard.js";
 import ContactUs from "./pages/ContactUs.js";
 
+
 const Layout = ({ children }) => {
 	return (
 		<>
