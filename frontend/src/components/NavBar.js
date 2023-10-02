@@ -24,18 +24,24 @@ const NavBar = ({ children }) => {
 							</Link>
 						</li>
 						<li>
-							<Link className="text-gray-700 hover:text-blue-700" to="/">
+							<Link className="text-gray-700 hover:text-blue-700" to="/contact">
 								Contact Us
 							</Link>
 						</li>
 					</ul>
 				</div>
-				<button
+				{/* <button
 					type="button"
 					className="px-4 py-2 text-sm font-semibold bg-white rounded-md shadow-sm text-sky-950 ring-1 ring-inset ring-gray-800 hover:bg-sky-950 hover:text-white"
 				>
 					Login
-				</button>
+				</button> */}
+				<Link
+					className="px-4 py-2 text-sm font-semibold bg-white rounded-md shadow-sm text-sky-950 ring-1 ring-inset ring-gray-800 hover:bg-sky-950 hover:text-white"
+					to="/login"
+				>
+					Login
+				</Link>
 			</nav>
 			{children}
 			<Footer />

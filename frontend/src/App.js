@@ -5,6 +5,7 @@ import AddDues from "./pages/AddDues.js";
 import Profile from "./pages/Profile.js";
 import NavBar from "./components/NavBar.js";
 import Dashboard from "./pages/Dashboard.js";
+import ContactUs from "./pages/ContactUs.js";
 
 const Layout = ({ children }) => {
 	return (
@@ -55,6 +56,14 @@ const App = () => {
 					element={
 						<Layout>
 							<AddDues />
+						</Layout>
+					}
+				/>
+				<Route
+					path="/contact"
+					element={
+						<Layout>
+							<ContactUs />
 						</Layout>
 					}
 				/>
