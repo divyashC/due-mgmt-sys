@@ -5,8 +5,15 @@ import Table from "../components/Table.js";
 const Profile = () => {
 	return (
 		<>
-			<ProfileCard />
-			<Table />
+		<div className="flex">
+      <div className="flex">
+        <ProfileCard />
+      </div>
+      <div className="flex-1">
+        <Table />
+
+      </div>
+    </div>
 		</>
 	);
 };
