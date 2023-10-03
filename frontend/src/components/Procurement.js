@@ -4,13 +4,12 @@ import DoughnutChart from "./DoughnutChart";
 import SearchBar from "./SearchBar";
 
 const Table = () => {
-
-    const chartData1 = {
+	const chartData1 = {
 		labels: ["Restored", "Not Restored"],
 		datasets: [
 			{
 				data: [300, 50],
-				backgroundColor: [ "#008000","#FF0000"],
+				backgroundColor: ["#008000", "#FF0000"],
 				// hoverBackgroundColor: ["#0056b3", "#d39e00"],
 			},
 		],
@@ -20,7 +19,6 @@ const Table = () => {
 		cutout: "60%",
 	};
 	return (
-        
 		<div className="flex flex-col">
 			<DoughnutChart
 				data={chartData1}
@@ -29,8 +27,6 @@ const Table = () => {
 			/>
 
 			<div className="relative mx-12 mt-10 overflow-x-auto shadow-md sm:rounded-lg">
-                
-                
 				<table className="w-full text-sm text-left text-gray-500">
 					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
 						<tr>
@@ -46,13 +42,12 @@ const Table = () => {
 							<th scope="col" className="px-6 py-3">
 								<div className="flex items-center">Item Damaged</div>
 							</th>
-                            <th scope="col" className="px-6 py-3">
+							<th scope="col" className="px-6 py-3">
 								<div className="flex items-center">Item Cost</div>
 							</th>
-                            <th scope="col" className="px-6 py-3">
+							<th scope="col" className="px-6 py-3">
 								<div className="flex items-center">Status</div>
 							</th>
-							
 						</tr>
 					</thead>
 					<tbody>
@@ -66,9 +61,8 @@ const Table = () => {
 							<td className="px-6 py-4">Physics Lab</td>
 							<td className="px-6 py-4">Sonam Thinley</td>
 							<td className="px-6 py-4">Bicker</td>
-                            <td className="px-6 py-4">Nu.300</td>
-                            <td className="px-6 py-4">Restored</td>
-						
+							<td className="px-6 py-4">Nu.300</td>
+							<td className="px-6 py-4">Restored</td>
 						</tr>
 
 						<tr className="bg-white border-b">
@@ -81,9 +75,8 @@ const Table = () => {
 							<td className="px-6 py-4">Chemistry Lab</td>
 							<td className="px-6 py-4">Thinley</td>
 							<td className="px-6 py-4">Sono Meter</td>
-                            <td className="px-6 py-4">Nu.2000</td>
-                            <td className="px-6 py-4">Not Restored</td>
-
+							<td className="px-6 py-4">Nu.2000</td>
+							<td className="px-6 py-4">Not Restored</td>
 						</tr>
 					</tbody>
 				</table>
