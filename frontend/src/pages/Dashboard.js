@@ -4,6 +4,15 @@ import Accounts from "../components/Accounts.js";
 import DashboardHome from "../components/DashboardHome.js";
 import Procurement from "../components/Procurement.js";
 const Dashboard = () => {
+
+	const [showLaboratoriesSubMenu, setShowLaboratoriesSubMenu] = useState(false);
+
+  const handleLaboratoriesClick = () => {
+    // Toggle the visibility of the Laboratories submenu
+    setShowLaboratoriesSubMenu(!showLaboratoriesSubMenu);
+  };
+
+
 	const [activeMenuItem, setActiveMenuItem] = useState("Dashboard");
 	const [showAddUsers, setShowAddUsers] = useState(false);
 
@@ -91,18 +100,49 @@ const Dashboard = () => {
 								<span className="flex-1 ml-3 whitespace-nowrap">Add Users</span>
 							</a>
 						</li>
-						<li>
-							<a
-								onClick={() => handleMenuItemClick("Laboratories")}
-								href="#"
-								className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
-							>
-								<i className="bi bi-house-gear-fill"></i>
-								<span className="flex-1 ml-3 whitespace-nowrap">
-									Laboratories
-								</span>
-							</a>
-						</li>
+						<li className="relative group">
+      <div
+        onClick={handleLaboratoriesClick}
+        className={`flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group`}
+      >
+        <i className="bi bi-house-gear-fill"></i>
+        <span className="flex-1 ml-3 whitespace-nowrap">Laboratories</span>
+        {/* Toggle the Bootstrap icon class based on submenu visibility */}
+        <i
+          className={`bi bi-caret-${showLaboratoriesSubMenu ? 'up' : 'down'}-fill absolute top-1/2 right-2 transform -translate-y-1/2 group-hover:text-gray-600 transition-colors duration-300`} 
+        ></i>
+      </div>
+      {/* Render the submenu based on state */}
+      {showLaboratoriesSubMenu && (
+        <ul className="mt-2 space-y-2">
+          {/* Dummy submenu items */}
+          <li>
+            <a
+              href="#"
+              className="block px-4 py-2 text-gray-900 rounded-lg hover:bg-gray-200"
+            >
+              Physics Lab
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className="block px-4 py-2 text-gray-900 rounded-lg hover:bg-gray-200"
+            >
+             NLP Lab
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className="block px-4 py-2 text-gray-900 rounded-lg hover:bg-gray-200"
+            >
+           Survey Lab
+            </a>
+          </li>
+        </ul>
+      )}
+    </li>
 					</ul>
 				</div>
 			</aside>
