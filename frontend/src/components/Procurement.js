@@ -1,19 +1,36 @@
 import React from "react";
 import AddBtn from "./AddBtn";
+import DoughnutChart from "./DoughnutChart";
 import SearchBar from "./SearchBar";
 
 const Table = () => {
-	return (
-		<>
-			{/* <div className="flex items-center justify-center mt-5">
-				<SearchBar />
-			</div>
 
-			<div className="flex justify-end mr-12">
-				<AddBtn />
-			</div> */}
+    const chartData1 = {
+		labels: ["Restored", "Not Restored"],
+		datasets: [
+			{
+				data: [300, 50],
+				backgroundColor: [ "#008000","#FF0000"],
+				// hoverBackgroundColor: ["#0056b3", "#d39e00"],
+			},
+		],
+	};
+
+	const chartOptions1 = {
+		cutout: "60%",
+	};
+	return (
+        
+		<div className="flex flex-col">
+			<DoughnutChart
+				data={chartData1}
+				options={chartOptions1}
+				title="Damaged Item Status"
+			/>
 
 			<div className="relative mx-12 mt-10 overflow-x-auto shadow-md sm:rounded-lg">
+                
+                
 				<table className="w-full text-sm text-left text-gray-500">
 					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
 						<tr>
@@ -50,7 +67,7 @@ const Table = () => {
 							<td className="px-6 py-4">Sonam Thinley</td>
 							<td className="px-6 py-4">Bicker</td>
                             <td className="px-6 py-4">Nu.300</td>
-                            <td>Restored</td>
+                            <td className="px-6 py-4">Restored</td>
 						
 						</tr>
 
@@ -71,7 +88,7 @@ const Table = () => {
 					</tbody>
 				</table>
 			</div>
-		</>
+		</div>
 	);
 };
 
