@@ -1,5 +1,6 @@
 import React from "react";
 import DoughnutChart from "./DoughnutChart";
+import BarChart from "./BarChart";
 
 const DashboardHome = () => {
 	// Dummy data for the first chart
@@ -34,34 +35,89 @@ const DashboardHome = () => {
 		cutout: "60%",
 	};
 
+	const barChartData = {
+		labels: ["January", "February", "March", "April", "May", "June", "July"],
+		datasets: [
+			{
+				label: "My First dataset",
+				backgroundColor: "#D84315",
+				borderColor: "#D84315",
+				data: [65, 59, 80, 81, 56, 55, 40],
+			},
+			{
+				label: "My Second dataset",
+				backgroundColor: "#28A745",
+				borderColor: "#28A745",
+				data: [28, 48, 40, 19, 86, 27, 90],
+			},
+		],
+	};
+
+	const barChartOptions = {
+		plugins: {
+			legend: {
+				labels: {
+					fontColor: "#D84315",
+				},
+			},
+		},
+		scales: {
+			x: {
+				ticks: {
+					color: "#D84315",
+					font: {
+						weight: 500,
+					},
+				},
+				grid: {
+					display: false,
+					drawBorder: false,
+				},
+			},
+			y: {
+				ticks: {
+					color: "#D84315",
+				},
+				grid: {
+					color: "#D84315",
+					drawBorder: false,
+				},
+			},
+		},
+	};
+
 	return (
 		<div className="flex flex-col items-center align-middle">
-			<div class="bg-white mt-5 mb-16">
-				<div class="mx-auto max-w-7xl px-6 lg:px-8">
-					<dl class="flex gap-x-10 gap-y-5 text-center ">
-						<div class="mx-auto flex max-w-xs flex-col gap-y-2 bg-blue-50 p-5 rounded-lg">
-							<dt class="text-base leading-7 text-sky-950">Amount Collected</dt>
-							<dd class="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
+			<div className="mt-5 mb-16 bg-white">
+				<div className="px-6 mx-auto max-w-7xl lg:px-8">
+					<dl className="flex text-center gap-x-10 gap-y-5 ">
+						<div className="flex flex-col max-w-xs p-5 mx-auto rounded-lg gap-y-2 bg-blue-50">
+							<dt className="text-base leading-7 text-sky-950">
+								Amount Collected
+							</dt>
+							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
 								Nu. 54,000
 							</dd>
 						</div>
-						<div class="mx-auto flex max-w-xs flex-col gap-y-2 bg-blue-50 p-5 rounded-lg">
-							<dt class="text-base leading-7 text-sky-950">Amount Due</dt>
-							<dd class="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
+						<div className="flex flex-col max-w-xs p-5 mx-auto rounded-lg gap-y-2 bg-blue-50">
+							<dt className="text-base leading-7 text-sky-950">Amount Due</dt>
+							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
 								Nu. 12,000
 							</dd>
 						</div>
-						<div class="mx-auto flex max-w-xs flex-col gap-y-2 bg-blue-50 p-5 rounded-lg">
-							<dt class="text-base leading-7 text-sky-950">Items Damaged</dt>
-							<dd class="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
+						<div className="flex flex-col max-w-xs p-5 mx-auto rounded-lg gap-y-2 bg-blue-50">
+							<dt className="text-base leading-7 text-sky-950">
+								Items Damaged
+							</dt>
+							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
 								413
 							</dd>
 						</div>
-						<div class="mx-auto flex max-w-xs flex-col gap-y-2 bg-blue-50 p-5 rounded-lg">
-							<dt class="text-base leading-7 text-sky-950">
+						<div className="flex flex-col max-w-xs p-5 mx-auto rounded-lg gap-y-2 bg-blue-50">
+							<dt className="text-base leading-7 text-sky-950">
 								Student with Dues
 							</dt>
-							<dd class="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
+							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
 								39
 							</dd>
 						</div>
@@ -80,6 +136,9 @@ const DashboardHome = () => {
 					options={chartOptions2}
 					title="Chart 2 Title"
 				/>
+			</div>
+			<div className="w-2/3">
+				<BarChart data={barChartData} options={barChartOptions} />
 			</div>
 		</div>
 	);
