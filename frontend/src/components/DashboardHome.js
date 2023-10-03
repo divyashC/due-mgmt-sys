@@ -4,14 +4,25 @@ import BarChart from "./BarChart";
 import LineChart from "./LineChart";
 
 const DashboardHome = () => {
-	// Dummy data for the first chart
-	const chartData1 = {
-		labels: ["A", "B", "C"],
+	const doughnutChart1 = {
+		labels: ["Lab A", "Lab B", "Lab C", "Lab D", "Lab E"],
 		datasets: [
 			{
-				data: [300, 50, 100],
-				backgroundColor: ["#007BFF", "#FFC107", "#28A745"],
-				hoverBackgroundColor: ["#0056b3", "#d39e00", "#1e7e34"],
+				data: [15000, 20000, 18000, 25000, 17000], // Replace with your data
+				backgroundColor: [
+					"#007BFF",
+					"#FFC107",
+					"#28A745",
+					"#FF5722",
+					"#4CAF50",
+				],
+				hoverBackgroundColor: [
+					"#0056b3",
+					"#d39e00",
+					"#1e7e34",
+					"#D84315",
+					"#388E3C",
+				],
 			},
 		],
 	};
@@ -20,36 +31,46 @@ const DashboardHome = () => {
 		cutout: "60%",
 	};
 
-	// Dummy data for the second chart
-	const chartData2 = {
-		labels: ["X", "Y", "Z"],
+	const doughnutChart2 = {
+		labels: ["Lab A", "Lab B", "Lab C", "Lab D", "Lab E"],
 		datasets: [
 			{
-				data: [200, 80, 150],
-				backgroundColor: ["#FF5722", "#FFC107", "#4CAF50"],
-				hoverBackgroundColor: ["#D84315", "#D39E00", "#388E3C"],
+				data: [5000, 7500, 6000, 8500, 7000], // Replace with your data
+				backgroundColor: [
+					"#007BFF",
+					"#FFC107",
+					"#28A745",
+					"#FF5722",
+					"#4CAF50",
+				],
+				hoverBackgroundColor: [
+					"#0056b3",
+					"#d39e00",
+					"#1e7e34",
+					"#D84315",
+					"#388E3C",
+				],
 			},
 		],
 	};
-
 	const chartOptions2 = {
 		cutout: "60%",
 	};
 
 	const barChartData = {
-		labels: ["January", "February", "March", "April", "May", "June", "July"],
+		labels: ["February", "March", "April", "May", "June", "July", "August"],
 		datasets: [
 			{
-				label: "My First dataset",
+				label: "Amount Collected",
 				backgroundColor: "#D84315",
 				borderColor: "#D84315",
-				data: [65, 59, 80, 81, 56, 55, 40],
+				data: [5400, 1200, 2200, 3500, 4800, 6000, 750], // Replace with your data
 			},
 			{
-				label: "My Second dataset",
+				label: "Items Damaged",
 				backgroundColor: "#28A745",
 				borderColor: "#28A745",
-				data: [28, 48, 40, 19, 86, 27, 90],
+				data: [5001, 413, 320, 430, 380, 290, 500], // Replace with your data
 			},
 		],
 	};
@@ -58,14 +79,14 @@ const DashboardHome = () => {
 		plugins: {
 			legend: {
 				labels: {
-					fontColor: "#D84315",
+					fontColor: "#000000",
 				},
 			},
 		},
 		scales: {
 			x: {
 				ticks: {
-					color: "#D84315",
+					color: "#000000",
 					font: {
 						weight: 500,
 					},
@@ -77,31 +98,31 @@ const DashboardHome = () => {
 			},
 			y: {
 				ticks: {
-					color: "#D84315",
+					color: "#000000",
 				},
 				grid: {
-					color: "#D84315",
-					drawBorder: false,
+					color: "#000000",
+					drawBorder: true,
 				},
 			},
 		},
 	};
 
 	const lineChartData = {
-		labels: ["January", "February", "March", "April", "May", "June", "July"],
+		labels: ["February", "March", "April", "May", "June", "July", "August"],
 		datasets: [
 			{
-				label: "First Dataset",
-				data: [65, 59, 80, 81, 56, 55, 40],
+				label: "Items Damaged",
+				data: [413, 250, 320, 430, 380, 290, 500], // Replace with your data
 				fill: false,
 				borderColor: "#D84315",
 				tension: 0.4,
 			},
 			{
-				label: "Second Dataset",
-				data: [28, 48, 40, 19, 86, 27, 90],
+				label: "Items Restored",
+				data: [300, 200, 260, 400, 350, 280, 450], // Replace with your data
 				fill: false,
-				borderColor: "#D84315",
+				borderColor: "#28A745",
 				tension: 0.4,
 			},
 		],
@@ -111,25 +132,25 @@ const DashboardHome = () => {
 		plugins: {
 			legend: {
 				labels: {
-					color: "#D84315",
+					color: "#000000",
 				},
 			},
 		},
 		scales: {
 			x: {
 				ticks: {
-					color: "#D84315",
+					color: "#000000",
 				},
 				grid: {
-					color: "#D84315",
+					color: "#000000",
 				},
 			},
 			y: {
 				ticks: {
-					color: "#D84315",
+					color: "#000000",
 				},
 				grid: {
-					color: "#D84315",
+					color: "#000000",
 				},
 			},
 		},
@@ -176,24 +197,98 @@ const DashboardHome = () => {
 
 			<div className="flex items-center w-full p-2 mb-16 align-middle gap-x-14">
 				<div className="w-4/5">
+					<h4 className="text-lg font-semibold text-sky-950">
+						Amount Collected & Items Damaged
+					</h4>
 					<BarChart data={barChartData} options={barChartOptions} />
 				</div>
 
 				<DoughnutChart
-					data={chartData1}
+					data={doughnutChart1}
 					options={chartOptions1}
-					title="Chart 1 Title"
+					title="Lab vs Amount Collected"
 				/>
 			</div>
 			<div className="flex items-center w-full p-2 align-middle gap-x-14">
 				<div className="w-4/5">
+					<h4 className="text-lg font-semibold text-sky-950">
+						Items Restored & Items Damaged
+					</h4>
 					<LineChart data={lineChartData} options={lineChartOptions} />
 				</div>
 				<DoughnutChart
-					data={chartData2}
+					data={doughnutChart2}
 					options={chartOptions2}
-					title="Chart 2 Title"
+					title="Lab vs Items Damaged"
 				/>
+			</div>
+
+			<div className="relative w-full m-20 overflow-x-auto shadow-md sm:rounded-lg">
+				<table className="w-full text-sm text-left text-gray-500">
+					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
+						<tr>
+							<th scope="col" className="px-6 py-3">
+								SL No.
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Laboratory</div>
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Incharge</div>
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Item Damaged</div>
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Date Damaged</div>
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Item Cost</div>
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Date Restored</div>
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Status</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr className="bg-white border-b">
+							<th
+								scope="row"
+								className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+							>
+								1
+							</th>
+							<td className="px-6 py-4">Chemistry Lab</td>
+							<td className="px-6 py-4">Gembo</td>
+							<td className="px-6 py-4">Beaker</td>
+							<td className="px-6 py-4">2023-08-01</td>
+							<td className="px-6 py-4">Nu.300</td>
+							<td className="px-6 py-4">2023-08-05</td>
+							<td className="px-6 py-4">Restored</td>
+						</tr>
+
+						<tr className="bg-white border-b">
+							<th
+								scope="row"
+								className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+							>
+								2
+							</th>
+							<td className="px-6 py-4">Physics Lab</td>
+							<td className="px-6 py-4">Karma Chophel</td>
+							<td className="px-6 py-4">Sono Meter</td>
+							<td className="px-6 py-4">2023-08-02</td>
+							<td className="px-6 py-4">Nu.2000</td>
+							<td className="px-6 py-4">N/A</td>
+							<td className="px-6 py-4">Not Restored</td>
+						</tr>
+
+						{/* Add 3 more rows of data here */}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	);
