@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Addusers from "../components/AddUsers.js";
 import Accounts from "../components/Accounts.js";
+import DashboardHome from "../components/DashboardHome.js";
 
 const Dashboard = () => {
 	const [activeMenuItem, setActiveMenuItem] = useState("Dashboard");
@@ -124,7 +125,7 @@ const Dashboard = () => {
 			</aside>
 			<div class="p-4 sm:ml-64 ">
 				<div class="p-2 border-2 border-gray-200 border-dashed rounded-lg flex items-center justify-center">
-					{activeMenuItem === "Dashboard" && <div>Dashboard Content</div>}
+					{activeMenuItem === "Dashboard" && <DashboardHome />}
 					{activeMenuItem === "Pending Dues" && <div>Pending Dues Content</div>}
 					{activeMenuItem === "Equipment Monitoring" && (
 						<div>Equipment Monitoring Content</div>

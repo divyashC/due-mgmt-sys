@@ -1,7 +1,51 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+	const navigate = useNavigate();
+
+	const [formData, setFormData] = useState({
+		email: "",
+		password: "",
+	});
+
+	const [error, setError] = useState(""); // State to store error messages
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData({
+			...formData,
+			[name]: value,
+		});
+	};
+
+	const apiBaseUrl = "http://localhost:8000";
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		try {
+			const response = await axios.post(`${apiBaseUrl}/login`, formData);
+			const { token, ...userDetails } = response.data;
+
+			// Save user details in local storage (excluding hashed password)
+			localStorage.setItem("token", token);
+			localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
+			// Navigate to the profile page if the login was successful
+			alert("You have been logged in successfully");
+			if (userDetails.userType === "ICT") {
+				navigate("/dashboard");
+			} else {
+				navigate("/profile");
+			}
+		} catch (error) {
+			// Display an error message to the user
+			setError(error.response.error);
+		}
+	};
+
 	return (
 		<div className="flex flex-col justify-center flex-1 min-h-full px-6 py-12 lg:px-8">
 			<div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -11,7 +55,7 @@ const Login = () => {
 			</div>
 
 			<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-				<form className="space-y-6" action="#" method="POST">
+				<form className="space-y-6" onSubmit={handleSubmit}>
 					<div>
 						<label
 							htmlFor="email"
@@ -27,6 +71,7 @@ const Login = () => {
 								autoComplete="email"
 								required
 								className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+								onChange={handleChange}
 							/>
 						</div>
 					</div>
@@ -56,23 +101,21 @@ const Login = () => {
 								autoComplete="current-password"
 								required
 								className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+								onChange={handleChange}
 							/>
 						</div>
 					</div>
 
+					{/* Display error message */}
+					{error && <div className="text-sm text-red-600">{error}</div>}
+
 					<div>
-						{/* <button
-							type="submit"
+						<button
+							onClick={handleSubmit}
 							className="flex justify-center w-full px-3 py-2 text-sm font-semibold leading-6 text-white rounded-md shadow-sm bg-sky-950 hover:bg-white hover:text-sky-950 hover:ring-1 hover:ring-inset hover:ring-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 						>
 							Sign in
-						</button> */}
-						<Link
-							className="flex justify-center w-full px-3 py-2 text-sm font-semibold leading-6 text-white rounded-md shadow-sm bg-sky-950 hover:bg-white hover:text-sky-950 hover:ring-1 hover:ring-inset hover:ring-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-							to="/profile"
-						>
-							Sign in
-						</Link>
+						</button>
 					</div>
 				</form>
 			</div>

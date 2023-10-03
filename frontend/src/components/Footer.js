@@ -2,15 +2,15 @@ import React from "react";
 
 const Footer = () => {
 	return (
-		<div className="py-8 bg-gray-200">
-			<div className="flex items-center justify-center mt-8 gap-1">
-				<p className="mx-4 text-sky-950 transition-colors duration-300 hover:text-blue-700">
+		<div className="py-8 mt-10 bg-gray-200">
+			<div className="flex items-center justify-center gap-1 mt-8">
+				<p className="mx-4 transition-colors duration-300 text-sky-950 hover:text-blue-700">
 					Home
 				</p>
-				<p className="mx-4 text-sky-950 transition-colors duration-300 hover:text-blue-700">
+				<p className="mx-4 transition-colors duration-300 text-sky-950 hover:text-blue-700">
 					Privacy Policy
 				</p>
-				<p className="mx-4 text-sky-950 transition-colors duration-300 hover:text-blue-700">
+				<p className="mx-4 transition-colors duration-300 text-sky-950 hover:text-blue-700">
 					Terms & Conditions
 				</p>
 			</div>
