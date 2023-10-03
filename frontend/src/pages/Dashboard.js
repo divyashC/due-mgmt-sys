@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Addusers from "../components/AddUsers.js";
 import Accounts from "../components/Accounts.js";
 import DashboardHome from "../components/DashboardHome.js";
-import Procurement from "../components/Procurement.js"
+import Procurement from "../components/Procurement.js";
 const Dashboard = () => {
 	const [activeMenuItem, setActiveMenuItem] = useState("Dashboard");
 	const [showAddUsers, setShowAddUsers] = useState(false);
@@ -106,15 +106,15 @@ const Dashboard = () => {
 					</ul>
 				</div>
 			</aside>
-			<div className="p-4 sm:ml-64 ">
+			<div className="p-2 sm:ml-64 ">
 				<div className="flex items-center justify-center p-2 border-2 border-gray-200 border-dashed rounded-lg">
 					{activeMenuItem === "Dashboard" && <DashboardHome />}
 					{activeMenuItem === "Pending Dues" && <div>Pending Dues Content</div>}
 					{activeMenuItem === "Equipment Monitoring" && (
 						<div>Equipment Monitoring Content</div>
 					)}
-					{activeMenuItem === "Accounts" && <Accounts/>}
-					{activeMenuItem === "Procurement" && <Procurement/>}
+					{activeMenuItem === "Accounts" && <Accounts />}
+					{activeMenuItem === "Procurement" && <Procurement />}
 					{activeMenuItem === "Add Users" && <Addusers />}
 					{activeMenuItem === "Laboratories" && <div>Laboratories Content</div>}
 				</div>
