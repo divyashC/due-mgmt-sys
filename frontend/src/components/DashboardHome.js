@@ -1,6 +1,7 @@
 import React from "react";
 import DoughnutChart from "./DoughnutChart";
 import BarChart from "./BarChart";
+import LineChart from "./LineChart";
 
 const DashboardHome = () => {
 	// Dummy data for the first chart
@@ -86,6 +87,54 @@ const DashboardHome = () => {
 		},
 	};
 
+	const lineChartData = {
+		labels: ["January", "February", "March", "April", "May", "June", "July"],
+		datasets: [
+			{
+				label: "First Dataset",
+				data: [65, 59, 80, 81, 56, 55, 40],
+				fill: false,
+				borderColor: "#D84315",
+				tension: 0.4,
+			},
+			{
+				label: "Second Dataset",
+				data: [28, 48, 40, 19, 86, 27, 90],
+				fill: false,
+				borderColor: "#D84315",
+				tension: 0.4,
+			},
+		],
+	};
+
+	const lineChartOptions = {
+		plugins: {
+			legend: {
+				labels: {
+					color: "#D84315",
+				},
+			},
+		},
+		scales: {
+			x: {
+				ticks: {
+					color: "#D84315",
+				},
+				grid: {
+					color: "#D84315",
+				},
+			},
+			y: {
+				ticks: {
+					color: "#D84315",
+				},
+				grid: {
+					color: "#D84315",
+				},
+			},
+		},
+	};
+
 	return (
 		<div className="flex flex-col items-center align-middle">
 			<div className="mt-5 mb-16 bg-white">
@@ -125,20 +174,26 @@ const DashboardHome = () => {
 				</div>
 			</div>
 
-			<div className="flex space-x-20">
+			<div className="flex items-center w-full p-2 mb-16 align-middle gap-x-14">
+				<div className="w-4/5">
+					<BarChart data={barChartData} options={barChartOptions} />
+				</div>
+
 				<DoughnutChart
 					data={chartData1}
 					options={chartOptions1}
 					title="Chart 1 Title"
 				/>
+			</div>
+			<div className="flex items-center w-full p-2 align-middle gap-x-14">
+				<div className="w-4/5">
+					<LineChart data={lineChartData} options={lineChartOptions} />
+				</div>
 				<DoughnutChart
 					data={chartData2}
 					options={chartOptions2}
 					title="Chart 2 Title"
 				/>
-			</div>
-			<div className="w-2/3">
-				<BarChart data={barChartData} options={barChartOptions} />
 			</div>
 		</div>
 	);
