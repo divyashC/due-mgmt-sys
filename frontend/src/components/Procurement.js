@@ -27,7 +27,13 @@ const Table = () => {
 								<div className="flex items-center">Incharge</div>
 							</th>
 							<th scope="col" className="px-6 py-3">
-								<div className="flex items-center">Amount Collected</div>
+								<div className="flex items-center">Item Damaged</div>
+							</th>
+                            <th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Item Cost</div>
+							</th>
+                            <th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Status</div>
 							</th>
 							
 						</tr>
@@ -42,7 +48,9 @@ const Table = () => {
 							</th>
 							<td className="px-6 py-4">Physics Lab</td>
 							<td className="px-6 py-4">Sonam Thinley</td>
-							<td className="px-6 py-4">Nu.340</td>
+							<td className="px-6 py-4">Bicker</td>
+                            <td className="px-6 py-4">Nu.300</td>
+                            <td>Restored</td>
 						
 						</tr>
 
@@ -55,8 +63,10 @@ const Table = () => {
 							</th>
 							<td className="px-6 py-4">Chemistry Lab</td>
 							<td className="px-6 py-4">Thinley</td>
-							<td className="px-6 py-4">Nu.600</td>
-						
+							<td className="px-6 py-4">Sono Meter</td>
+                            <td className="px-6 py-4">Nu.2000</td>
+                            <td className="px-6 py-4">Not Restored</td>
+
 						</tr>
 					</tbody>
 				</table>
