@@ -7,25 +7,17 @@ import PendingDues from "../components/PendingDues.js";
 import Equipments from "../components/Equipments.js";
 
 const Dashboard = () => {
-
 	const [showLaboratoriesSubMenu, setShowLaboratoriesSubMenu] = useState(false);
 
-  const handleLaboratoriesClick = () => {
-    // Toggle the visibility of the Laboratories submenu
-    setShowLaboratoriesSubMenu(!showLaboratoriesSubMenu);
-  };
-
+	const handleLaboratoriesClick = () => {
+		// Toggle the visibility of the Laboratories submenu
+		setShowLaboratoriesSubMenu(!showLaboratoriesSubMenu);
+	};
 
 	const [activeMenuItem, setActiveMenuItem] = useState("Dashboard");
-	const [showAddUsers, setShowAddUsers] = useState(false);
 
 	const handleMenuItemClick = (menuItem) => {
 		setActiveMenuItem(menuItem);
-		setShowAddUsers(false);
-	};
-
-	const handleAddUsersClick = () => {
-		setShowAddUsers(true);
 	};
 
 	return (
@@ -38,114 +30,116 @@ const Dashboard = () => {
 				<div className="h-full px-3 py-4 overflow-y-auto bg-gray-50">
 					<ul className="space-y-2 font-medium">
 						<li>
-							<a
+							<button
 								onClick={() => handleMenuItemClick("Dashboard")}
-								href="#"
 								className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-10 group"
 							>
 								<i className="bi bi-pie-chart-fill"></i>
 								<span className="ml-3">Dashboard</span>
-							</a>
+							</button>
 						</li>
 						<li>
-							<a
+							<button
 								onClick={() => handleMenuItemClick("Pending Dues")}
-								href="#"
 								className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
 							>
 								<i className="bi bi-clock-fill"></i>
 								<span className="flex-1 ml-3 whitespace-nowrap">
 									Pending Dues
 								</span>
-							</a>
+							</button>
 						</li>
 						<li>
-							<a
+							<button
 								onClick={() => handleMenuItemClick("Equipment Monitoring")}
-								href="#"
 								className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
 							>
 								<i className="bi bi-tools"></i>
 								<span className="flex-1 ml-3 whitespace-nowrap">
 									Equipment Monitoring
 								</span>
-							</a>
+							</button>
 						</li>
 						<li>
-							<a
+							<button
 								onClick={() => handleMenuItemClick("Accounts")}
-								href="#"
 								className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
 							>
 								<i className="bi bi-cash-coin"></i>
 								<span className="flex-1 ml-3 whitespace-nowrap">Accounts</span>
-							</a>
+							</button>
 						</li>
 						<li>
-							<a
+							<button
 								onClick={() => handleMenuItemClick("Procurement")}
-								href="#"
 								className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
 							>
 								<i className="bi bi-clipboard2-plus-fill"></i>
 								<span className="flex-1 ml-3 whitespace-nowrap">
 									Procurement
 								</span>
-							</a>
+							</button>
 						</li>
 						<li>
-							<a
+							<button
 								onClick={() => handleMenuItemClick("Add Users")}
-								href="#"
-								className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+								className="flex items-center p-2 text-gray-900 rounded-lg hover-bg-gray-100 group"
 							>
 								<i className="bi bi-person-fill-add"></i>
 								<span className="flex-1 ml-3 whitespace-nowrap">Add Users</span>
-							</a>
+							</button>
 						</li>
 						<li className="relative group">
-      <div
-        onClick={handleLaboratoriesClick}
-        className={`flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group`}
-      >
-        <i className="bi bi-house-gear-fill"></i>
-        <span className="flex-1 ml-3 whitespace-nowrap">Laboratories</span>
-        {/* Toggle the Bootstrap icon class based on submenu visibility */}
-        <i
-          className={`bi bi-caret-${showLaboratoriesSubMenu ? 'up' : 'down'}-fill absolute top-1/2 right-2 transform -translate-y-1/2 group-hover:text-gray-600 transition-colors duration-300`} 
-        ></i>
-      </div>
-      {/* Render the submenu based on state */}
-      {showLaboratoriesSubMenu && (
-        <ul className="mt-2 space-y-2">
-          {/* Dummy submenu items */}
-          <li>
-            <a
-              href="#"
-              className="block px-4 py-2 text-gray-900 rounded-lg hover:bg-gray-200"
-            >
-              Physics Lab
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="block px-4 py-2 text-gray-900 rounded-lg hover:bg-gray-200"
-            >
-             NLP Lab
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="block px-4 py-2 text-gray-900 rounded-lg hover:bg-gray-200"
-            >
-           Survey Lab
-            </a>
-          </li>
-        </ul>
-      )}
-    </li>
+							<div
+								onClick={handleLaboratoriesClick}
+								className={`flex items-center p-2 text-gray-900 rounded-lg hover-bg-gray-100 group relative`}
+							>
+								<i className="bi bi-house-gear-fill"></i>
+								<span className="flex-1 ml-3 whitespace-nowrap">
+									Laboratories
+								</span>
+								{/* Toggle the Bootstrap icon className based on submenu visibility */}
+								{showLaboratoriesSubMenu ? (
+									<i
+										className={`bi bi-caret-up-fill absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-600 transition-colors duration-300`}
+									></i>
+								) : (
+									<i
+										className={`bi bi-caret-down-fill absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-600 transition-colors duration-300`}
+									></i>
+								)}
+							</div>
+							{/* Render the submenu based on state */}
+							{showLaboratoriesSubMenu && (
+								<ul className="mt-2 ml-8 space-y-2">
+									{/* Dummy submenu items */}
+									<li>
+										<div
+											className="block px-4 py-2 text-gray-900 rounded-lg hover-bg-gray-200"
+											onClick={() => handleMenuItemClick("Physics Lab")}
+										>
+											Physics Lab
+										</div>
+									</li>
+									<li>
+										<div
+											className="block px-4 py-2 text-gray-900 rounded-lg hover-bg-gray-200"
+											onClick={() => handleMenuItemClick("NLP Lab")}
+										>
+											NLP Lab
+										</div>
+									</li>
+									<li>
+										<div
+											className="block px-4 py-2 text-gray-900 rounded-lg hover-bg-gray-200"
+											onClick={() => handleMenuItemClick("Survey Lab")}
+										>
+											Survey Lab
+										</div>
+									</li>
+								</ul>
+							)}
+						</li>
 					</ul>
 				</div>
 			</aside>
@@ -157,7 +151,9 @@ const Dashboard = () => {
 					{activeMenuItem === "Accounts" && <Accounts />}
 					{activeMenuItem === "Procurement" && <Procurement />}
 					{activeMenuItem === "Add Users" && <Addusers />}
-					{activeMenuItem === "Laboratories" && <div>Laboratories Content</div>}
+					{activeMenuItem === "Physics Lab" && <div>Physics Lab</div>}
+					{activeMenuItem === "Survey Lab" && <div>Survey Lab</div>}
+					{activeMenuItem === "NLP Lab" && <div>NLP Lab</div>}
 				</div>
 			</div>
 		</>
