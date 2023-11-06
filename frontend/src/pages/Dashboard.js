@@ -63,7 +63,6 @@ const Dashboard = () => {
 								onClick={() => handleMenuItemClick("Pending Dues")}
 								className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
 							>
-								<i className="bi bi-clock-fill"></i>
 								<span className="flex-1 ml-3 whitespace-nowrap">
 									Pending Dues
 								</span>
