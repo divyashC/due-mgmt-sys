@@ -23,6 +23,8 @@ const Table = () => {
 			"NLP LaB(IT)",
 			"Survey Lab",
 			"Fluid Mechanic Lab",
+			"Survey Lab",
+			"Fluid Mechanic Lab"
 		],
 
 		yaxis: ["Amount"],
@@ -31,13 +33,13 @@ const Table = () => {
 				label: "Amount Collected",
 				backgroundColor: "#008000",
 				borderColor: "#008000",
-				data: [65, 59, 80, 81, 56, 55, 40],
+				data: [65, 59, 80, 81, 56, 55, 40,56,7],
 			},
 			{
 				label: "Amount Due",
 				backgroundColor: "#FF0000",
 				borderColor: "#FF0000",
-				data: [28, 48, 40, 19, 86, 27, 90],
+				data: [28, 48, 40, 19, 86, 27, 90,67,8],
 			},
 		],
 	};
@@ -97,20 +99,22 @@ const Table = () => {
 					</dl>
 				</div>
 			</div>
+			<div className="px-6 mb-4">
+  <DoughnutChart
+    data={chartData1}
+    options={chartOptions1}
+    title="Account Status"
+  />
+</div>
 
-			<DoughnutChart
-				data={chartData1}
-				options={chartOptions1}
-				title="Account Status"
-			/>
-
-			<div className="w-2/3 mx-16">
-				<BarChart
-					data={barChartData}
-					options={barChartOptions}
-					title="Status"
-				/>
-			</div>
+<div className="w-2/3 mx-16 mt-4">
+<h2 className="mb-2 text-lg font-semibold text-center">Status</h2>
+  <BarChart
+    data={barChartData}
+    options={barChartOptions}
+  
+  />
+</div>
 
 			<div className="relative mx-12 mt-10 mb-16 overflow-x-auto shadow-md sm:rounded-lg">
 				<table className="w-full text-sm text-left text-gray-500">
