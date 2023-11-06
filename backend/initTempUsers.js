@@ -41,6 +41,33 @@ const usersData = [
 		role: "ICT Officer",
 		password: "Cst@12345", // You should hash this password
 	},
+	{
+		fullName: "Nidup",
+		email: "nidup.cst@rub.edu.bt",
+		phoneNo: "17171717",
+		department: "SCIENCE AND HUMANITIES DEPARTMENT",
+		userType: "Staff",
+		role: "Physic Lab Incharge",
+		password: "Cst@12345", // You should hash this password
+	},
+	{
+		fullName: "Yeshi",
+		email: "yeshi.cst@rub.edu.bt",
+		phoneNo: "17171717",
+		department: "SCIENCE AND HUMANITIES DEPARTMENT",
+		userType: "Staff",
+		role: "Chemistry Lab Incharge",
+		password: "Cst@12345", // You should hash this password
+	},
+	{
+		fullName: "Wangchuk",
+		email: "wangchuk.cst@rub.edu.bt",
+		phoneNo: "17171717",
+		department: "IT DEPARTMENT",
+		userType: "Staff",
+		role: "NLP Lab Incharge",
+		password: "Cst@12345", // You should hash this password
+	},
 ];
 
 // Connect to MongoDB (same as in your server.js)

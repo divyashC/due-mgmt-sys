@@ -30,6 +30,7 @@ const connectDB = async () => {
 connectDB();
 
 app.post("/login", userController.loginUser);
+app.get("/getUsers", userController.getAllUsers);
 
 app.listen(8000, () => {
 	console.log("Server has started on port 8000");
