@@ -231,5 +231,22 @@ const labInChargeData = [
 		role: "NLP Lab Incharge",
 		password: "Cst@12345", // You should hash this password
 	},
+]
 
+//Physic lab
+const physicLabData = [
+
+]
+
+//Chemistry Lab
+const chemistryLabData = [
+
+
+]
+
+
+//NLP lab
+const nlpLabData = [
+
+		
 ]
