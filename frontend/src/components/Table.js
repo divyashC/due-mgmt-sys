@@ -8,6 +8,16 @@ import { CurrencyBangladeshiIcon } from "@heroicons/react/24/outline";
 const Table = ({ labName }) => {
 	const [duesData, setDuesData] = useState([]);
 	const [restoredData, setRestoredData] = useState([]);
+	const [isClearDuesModalOpen, setIsClearDuesModalOpen] = useState(false);
+	const [isStudentDetailsModalOpen, setIsStudentDetailsModalOpen] =
+		useState(false);
+	const [isDuesCleared, setIsDuesCleared] = useState(false);
+	const [id, setId] = useState(null);
+	const [isRestoredCheckboxModalOpen, setIsRestoredCheckboxModalOpen] =
+		useState(false);
+	const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+	const [isRestored, setIsRestored] = useState(false);
+	const [selectedStudent, setSelectedStudent] = useState(null); // Store selected student data
 
 	useEffect(() => {
 		Promise.all([
@@ -33,27 +43,20 @@ const Table = ({ labName }) => {
 		)
 		.reduce((unique, item) => {
 			if (!unique.some((obj) => obj.itemName === item.itemName)) {
-				unique.push(item);
+				unique.push({ ...item, isRestored: false }); // Ensure each item has an isRestored property
 			} else {
-				unique.find((obj) => obj.itemName === item.itemName).quantity +=
-					item.quantity;
+				const existingItem = unique.find(
+					(obj) => obj.itemName === item.itemName
+				);
+				existingItem.quantity += item.quantity;
+				existingItem.isRestored = false; // Initialize the isRestored property
 			}
 			return unique;
 		}, []);
 
-	const [isClearDuesModalOpen, setIsClearDuesModalOpen] = useState(false);
-	const [isStudentDetailsModalOpen, setIsStudentDetailsModalOpen] =
-		useState(false);
-	const [isDuesCleared, setIsDuesCleared] = useState(false);
-	const [id, setId] = useState(null);
-	const [restoreId, setRestoreId] = useState(null);
-
 	const onClearDues = () => {
 		setIsDuesCleared(true);
 	};
-
-	// State for student details modal
-	const [selectedStudent, setSelectedStudent] = useState(null); // Store selected student data
 
 	const clearDue = (id) => {
 		if (id) {
@@ -85,6 +88,34 @@ const Table = ({ labName }) => {
 		}
 	};
 
+	const handleRestoredCheckboxClick = (id) => {
+		// Make the PUT request to update the restored status
+		if (id) {
+			fetch(`http://localhost:8000/updateRestored/${id}`, {
+				method: "PUT",
+			})
+				.then((response) => {
+					if (response.ok) {
+						fetch("http://localhost:8000/getAllRestoredItems")
+							.then((response) => response.json())
+							.then((data) => {
+								setRestoredData(data);
+							})
+							.catch((error) => {
+								console.error("Error fetching data: ", error);
+							});
+					} else {
+						console.error("Failed to update restored status");
+					}
+				})
+				.catch((error) => {
+					console.error("Error calling the API: ", error);
+				});
+		} else {
+			console.error("Invalid restored item ID");
+		}
+	};
+
 	const openClearDuesModal = (id) => {
 		setId(id);
 		setIsClearDuesModalOpen(true);
@@ -103,11 +134,6 @@ const Table = ({ labName }) => {
 		setIsStudentDetailsModalOpen(false);
 	};
 
-	//checkbox
-	const [isRestoredCheckboxModalOpen, setIsRestoredCheckboxModalOpen] =
-		useState(false);
-	const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
-
 	const openRestoredCheckboxModal = (id) => {
 		setIsRestoredCheckboxModalOpen(true);
 	};
@@ -115,8 +141,6 @@ const Table = ({ labName }) => {
 	const closeRestoredCheckboxModal = () => {
 		setIsRestoredCheckboxModalOpen(false);
 	};
-
-	const [isRestored, setIsRestored] = useState(false);
 
 	const handleRestoredConfirmation = (confirmed) => {
 		if (confirmed) {
@@ -231,7 +255,7 @@ const Table = ({ labName }) => {
 					</thead>
 					<tbody>
 						{filteredRestoredData.map((item, index) => (
-							<tr className="bg-white border-b">
+							<tr className="bg-white border-b" key={index}>
 								<th
 									scope="row"
 									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
@@ -243,25 +267,26 @@ const Table = ({ labName }) => {
 									{item.quantity > 1 ? item.quantity - 1 : item.quantity}
 								</td>
 								<td className="px-6 py-4">
-									{isRestored ? (
+									{item.isRestored ? (
 										<div className="text-sm font-normal text-black">
 											Item is restored
 										</div>
 									) : (
 										<div className="flex items-center">
 											<input
-												id="green-checkbox"
+												id={`green-checkbox-${index}`}
 												type="checkbox"
 												value=""
 												className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-												checked={isCheckboxChecked}
-												onChange={openRestoredCheckboxModal}
+												checked={item.isRestored} // Use the item's isRestored property
+												onChange={() => handleRestoredCheckboxClick(item._id)}
 											/>
 											<label
-												htmlFor="green-checkbox"
+												htmlFor={`green-checkbox-${index}`}
 												className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
 											>
-												Restored
+												{item.isRestored ? "Restored" : "Not Restored"}{" "}
+												{/* Display the correct label based on isRestored */}
 											</label>
 										</div>
 									)}
