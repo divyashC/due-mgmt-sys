@@ -1,14 +1,107 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DoughnutChart from "./DoughnutChart";
 import BarChart from "./BarChart";
 import LineChart from "./LineChart";
 
 const DashboardHome = () => {
+	const [dataSummary, setDataSummary] = useState([]);
+	const [duesData, setDuesData] = useState([]);
+	const [labNames, setLabNames] = useState([]);
+	const [labAmount, setLabAmount] = useState([]);
+	const [labItemsDamaged, setLabItemsDamaged] = useState([]);
+	const [amountCollectedPerMonth, setAmountCollectedPerMonth] = useState([]);
+	const [itemsDamagedPerMonth, setItemsDamagedPerMonth] = useState([]);
+
+	useEffect(() => {
+		// Simulate an API call to fetch data summary
+		fetch("http://localhost:8000/datasummary")
+			.then((response) => response.json())
+			.then((data) => {
+				setDataSummary(data);
+			})
+			.catch((error) => {
+				console.error("Error fetching data summary: ", error);
+			});
+	}, []);
+
+	useEffect(() => {
+		// Simulate an API call to fetch dues data
+		fetch("http://localhost:8000/getDues")
+			.then((response) => response.json())
+			.then((data) => {
+				setDuesData(data);
+
+				const uniqueLabNames = [...new Set(data.map((item) => item.labName))];
+				const labAmounts = labNames.map((labName) =>
+					data
+						.filter((item) => item.labName === labName && item.dues === "paid")
+						.reduce((total, item) => total + item.amount, 0)
+				);
+				const labItemsDamaged = labNames.map(
+					(labName) => data.filter((item) => item.labName === labName).length
+				);
+				const months = Array.from({ length: 12 }, (_, i) => i + 1);
+
+				// Initialize an object to store the total amount collected for each month
+				const amountCollectedPerMonth = months.reduce((acc, month) => {
+					const formattedMonth = month.toString().padStart(2, "0");
+					const itemsInMonth = data.filter((item) => {
+						const itemDate = item.date.split("/");
+						return itemDate[1] === formattedMonth && item.dues === "paid";
+					});
+					const totalAmount = itemsInMonth.reduce(
+						(sum, item) => sum + item.amount,
+						0
+					);
+					acc[formattedMonth] = totalAmount;
+					return acc;
+				}, {});
+
+				const amountCollectedPerMonthArray = months.map((month) => {
+					const formattedMonth = month.toString().padStart(2, "0");
+					return amountCollectedPerMonth[formattedMonth] || 0;
+				});
+
+				// Initialize an object to store the total number of items damaged for each month
+				const itemsDamagedPerMonth = months.reduce((acc, month) => {
+					// Format the month as "01" for January, "02" for February, and so on
+					const formattedMonth = month.toString().padStart(2, "0");
+
+					// Filter the data for items with the same month
+					const itemsInMonth = data.filter((item) => {
+						const itemDate = item.date.split("/"); // Split the date into [day, month, year]
+						return itemDate[1] === formattedMonth;
+					});
+
+					// Store the total amount in the object
+					acc[formattedMonth] = itemsInMonth.length;
+
+					return acc;
+				}, {});
+
+				// Convert the object to an array of total items damaged per month, filling in zeros for missing months
+				const itemsDamagedPerMonthArray = months.map((month) => {
+					const formattedMonth = month.toString().padStart(2, "0");
+					return itemsDamagedPerMonth[formattedMonth] || 0;
+				});
+
+				setLabNames(uniqueLabNames);
+				setLabAmount(labAmounts);
+				setLabItemsDamaged(labItemsDamaged);
+				setAmountCollectedPerMonth(amountCollectedPerMonthArray);
+				setItemsDamagedPerMonth(itemsDamagedPerMonthArray);
+			})
+			.catch((error) => {
+				console.error("Error fetching dues data: ", error);
+			});
+	}, []);
+
 	const doughnutChart1 = {
-		labels: ["Lab A", "Lab B", "Lab C", "Lab D", "Lab E"],
+		labels: labNames.map((name) => name),
+		// labels: duesData.map((data) => data.labName),
 		datasets: [
 			{
-				data: [15000, 20000, 18000, 25000, 17000], // Replace with your data
+				data: labAmount.map((amount) => amount),
 				backgroundColor: [
 					"#007BFF",
 					"#FFC107",
@@ -32,10 +125,10 @@ const DashboardHome = () => {
 	};
 
 	const doughnutChart2 = {
-		labels: ["Lab A", "Lab B", "Lab C", "Lab D", "Lab E"],
+		labels: labNames.map((name) => name),
 		datasets: [
 			{
-				data: [5000, 7500, 6000, 8500, 7000], // Replace with your data
+				data: labItemsDamaged.map((amount) => amount),
 				backgroundColor: [
 					"#007BFF",
 					"#FFC107",
@@ -58,19 +151,32 @@ const DashboardHome = () => {
 	};
 
 	const barChartData = {
-		labels: ["February", "March", "April", "May", "June", "July", "August"],
+		labels: [
+			"Jan",
+			"Feb",
+			"Mar",
+			"Apr",
+			"May",
+			"Jun",
+			"Jul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
+		],
 		datasets: [
 			{
 				label: "Amount Collected",
 				backgroundColor: "#D84315",
 				borderColor: "#D84315",
-				data: [5400, 1200, 2200, 3500, 4800, 6000, 750], // Replace with your data
+				data: amountCollectedPerMonth.map((amount) => amount),
 			},
 			{
 				label: "Items Damaged",
 				backgroundColor: "#28A745",
 				borderColor: "#28A745",
-				data: [5001, 413, 320, 430, 380, 290, 500], // Replace with your data
+				data: itemsDamagedPerMonth.map((amount) => amount),
 			},
 		],
 	};
@@ -166,13 +272,13 @@ const DashboardHome = () => {
 								Amount Collected
 							</dt>
 							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
-								Nu. 54,000
+								Nu. {dataSummary.amountCollected}
 							</dd>
 						</div>
 						<div className="flex flex-col max-w-xs p-5 mx-auto rounded-lg gap-y-2 bg-blue-50">
 							<dt className="text-base leading-7 text-sky-950">Amount Due</dt>
 							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
-								Nu. 12,000
+								Nu. {dataSummary.amountDue}
 							</dd>
 						</div>
 						<div className="flex flex-col max-w-xs p-5 mx-auto rounded-lg gap-y-2 bg-blue-50">
@@ -180,15 +286,15 @@ const DashboardHome = () => {
 								Items Damaged
 							</dt>
 							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
-								413
+								{dataSummary.itemsDamaged}
 							</dd>
 						</div>
 						<div className="flex flex-col max-w-xs p-5 mx-auto rounded-lg gap-y-2 bg-blue-50">
 							<dt className="text-base leading-7 text-sky-950">
-								Student with Dues
+								Students with Dues
 							</dt>
 							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
-								39
+								{dataSummary.studentsWithDues}
 							</dd>
 						</div>
 					</dl>
@@ -254,39 +360,23 @@ const DashboardHome = () => {
 						</tr>
 					</thead>
 					<tbody>
-						<tr className="bg-white border-b">
-							<th
-								scope="row"
-								className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-							>
-								1
-							</th>
-							<td className="px-6 py-4">Chemistry Lab</td>
-							<td className="px-6 py-4">Gembo</td>
-							<td className="px-6 py-4">Beaker</td>
-							<td className="px-6 py-4">2023-08-01</td>
-							<td className="px-6 py-4">Nu.300</td>
-							<td className="px-6 py-4">2023-08-05</td>
-							<td className="px-6 py-4">Restored</td>
-						</tr>
-
-						<tr className="bg-white border-b">
-							<th
-								scope="row"
-								className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-							>
-								2
-							</th>
-							<td className="px-6 py-4">Physics Lab</td>
-							<td className="px-6 py-4">Karma Chophel</td>
-							<td className="px-6 py-4">Sono Meter</td>
-							<td className="px-6 py-4">2023-08-02</td>
-							<td className="px-6 py-4">Nu.2000</td>
-							<td className="px-6 py-4">N/A</td>
-							<td className="px-6 py-4">Not Restored</td>
-						</tr>
-
-						{/* Add 3 more rows of data here */}
+						{duesData.map((data, index) => (
+							<tr className="bg-white border-b" key={index}>
+								<th
+									scope="row"
+									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+								>
+									{index + 1}
+								</th>
+								<td className="px-6 py-4">{data.labName}</td>
+								<td className="px-6 py-4">{data.labInchargeName}</td>
+								<td className="px-6 py-4">{data.item}</td>
+								<td className="px-6 py-4 text-start">{data.date}</td>
+								<td className="px-6 py-4">Nu. {data.amount}</td>
+								<td className="px-6 py-4 text-start">{data.date}</td>
+								<td className="px-6 py-4 text-start">{data.dues}</td>
+							</tr>
+						))}
 					</tbody>
 				</table>
 			</div>
