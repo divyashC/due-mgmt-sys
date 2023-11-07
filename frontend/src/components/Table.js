@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState, useEffect } from "react";
 import ClearDuesModal from './ClearDuesModal';
 import AddBtn from "../components/AddBtn.js";
 
@@ -120,27 +121,18 @@ const Table = () => {
 							<td className="px-6 py-4">Physics Lab</td>
 							<td className="px-6 py-4">02200034</td>
 							<td className="px-6 py-4">Nu.340</td>
-					<td>
-					<button
-        className={`bg-${isDuesCleared ? 'green' : 'red'}-500 hover:bg-${isDuesCleared ? 'green' : 'red'}-700 text-white font-semibold py-2 px-4 border border-${isDuesCleared ? 'green' : 'red'}-500 rounded flex items-center`}
-        onClick={isDuesCleared ? closeClearDuesModal : openClearDuesModal}
-      >
-        <svg
-          className="w-4 h-4 mr-1"
-          fill="none"
-          stroke="white"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-        {isDuesCleared ? "Cleared" : "Clear Dues"}
-      </button>
-
-					</td>
-
+							<td>
+                {!isDuesCleared ? (
+                  <button
+                    className={`bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-red-500 rounded flex items-center`}
+                    onClick={openClearDuesModal}
+                  >
+                    Clear Dues
+                  </button>
+                ) : (
+                  'Cleared'
+                )}
+              </td>
 						</tr>
 
 						

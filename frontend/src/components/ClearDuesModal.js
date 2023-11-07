@@ -1,31 +1,73 @@
-import React from 'react';
+import { Fragment, useRef } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 const ClearDuesModal = ({ isOpen, onClose, onClear, onCancel }) => {
-  if (!isOpen) {
-    return null;
-  }
+  const cancelButtonRef = useRef(null);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="fixed inset-0 bg-black opacity-60" onClick={onClose}></div>
-      <div className="z-10 p-4 bg-white rounded-lg shadow-lg">
-        <p>Are you sure you want to clear the dues?</p>
-        <div className="flex justify-end mt-4">
-          <button
-            onClick={onClear}
-            className="px-4 py-2 mr-2 text-white bg-green-500 rounded"
+    <Transition.Root show={isOpen} as={Fragment}>
+      <Dialog as="div" className="fixed inset-0 z-10" initialFocus={cancelButtonRef} onClose={onClose}>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 z-10 flex items-center justify-center">
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            enterTo="opacity-100 translate-y-0 sm:scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            Yes
-          </button>
-          <button
-            onClick={onCancel}
-            className="px-4 py-2 text-white bg-red-500 rounded"
-          >
-            No
-          </button>
+            <Dialog.Panel className="relative overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl sm:w-full sm:max-w-lg">
+              <div className="px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
+                <div className="sm:flex sm:items-start">
+                  <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-red-100 rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                    <ExclamationTriangleIcon className="w-6 h-6 text-red-600" aria-hidden="true" />
+                  </div>
+                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                      Are you sure you want to clear the dues?
+                    </Dialog.Title>
+                  </div>
+                </div>
+              </div>
+              <div className="px-4 py-3 bg-gray-50 sm:flex sm:flex-row-reverse sm:px-6">
+                <button
+                  ref={cancelButtonRef}
+                  type="button"
+                  className="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white bg-green-500 rounded-md shadow-sm hover:bg-green-600 sm:ml-3 sm:w-auto"
+                  onClick={() => {
+                    onClear();
+                    onClose();
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  className="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white bg-red-600 rounded-md shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                  onClick={onCancel}
+                >
+                  No
+                </button>
+              </div>
+            </Dialog.Panel>
+          </Transition.Child>
         </div>
-      </div>
-    </div>
+      </Dialog>
+    </Transition.Root>
   );
 };
 
