@@ -5,9 +5,7 @@
 // import AddBtn from "../components/AddBtn.js";
 
 // const Profile = () => {
-	
 
-	
 // 	// Get the user type from local storage
 // 	const userDetails = JSON.parse(localStorage.getItem("userDetails"));
 // 	const userType = userDetails ? userDetails.userType : null;
@@ -35,7 +33,7 @@
 // <br>
 // </br>
 // 				<div>
-				
+
 // 					<h1>Items Status</h1>
 // 				<table className="w-full text-sm text-left text-gray-500">
 // 					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -49,7 +47,7 @@
 // 							<th scope="col" className="px-6 py-3">
 // 								<div className="flex items-center">Remarks</div>
 // 							</th>
-							
+
 // 						</tr>
 // 					</thead>
 // 					<tbody>
@@ -67,9 +65,7 @@
 // </button>
 
 // 							</td>
-							
 
-						
 // 						</tr>
 
 // 						<tr className="bg-white border-b">
@@ -80,14 +76,11 @@
 // 								2
 // 							</th>
 // 							<td className="px-6 py-4">Sonometer</td>
-				
-							
+
 // 						</tr>
 // 					</tbody>
 // 				</table>
 // 				</div>
-
-
 
 // 			</div>
 // 		</>
@@ -104,8 +97,11 @@ import StudentTable from "../components/StudentTable.js";
 import AdministrationTable from "../components/AdministrationTable.js";
 
 const Profile = () => {
-  const [isClearDuesModalOpen, setIsClearDuesModalOpen] = useState(false);
-  const [duesCleared, setDuesCleared] = useState(false); // New state variable
+	const [isClearDuesModalOpen, setIsClearDuesModalOpen] = useState(false);
+	const [duesCleared, setDuesCleared] = useState(false); // New state variable
+
+	const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+	const userType = userDetails ? userDetails.userType : null;
 
 	return (
 		<>
@@ -134,4 +130,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
