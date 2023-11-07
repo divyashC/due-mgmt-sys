@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const StudentTable = () => {
+const StudentTable = ({ stdNo }) => {
+	const [studentDues, setStudentDues] = useState([]);
+
+	useEffect(() => {
+		// Make an API call to fetch student dues based on the stdNo
+		fetch(`http://localhost:8000/getDueByStudentNo/${stdNo}`)
+			.then((response) => response.json())
+			.then((data) => setStudentDues(data))
+			.catch((error) => console.error("Error fetching data:", error));
+	}, [stdNo]);
+
 	return (
 		<>
-			{/* <div className="flex items-center justify-center mt-5">
-				<SearchBar />
-			</div>
-
-			<div className="flex justify-end mr-12">
-				<AddBtn />
-			</div> */}
-
 			<div className="relative mx-12 mt-10 overflow-x-auto shadow-md sm:rounded-lg">
 				<table className="w-full text-sm text-left text-gray-500">
 					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
 						<tr>
 							<th scope="col" className="px-6 py-3">
-								SL No.
+								Sl No.
 							</th>
 							<th scope="col" className="px-6 py-3">
 								<div className="flex items-center">Laboratory</div>
@@ -39,35 +41,21 @@ const StudentTable = () => {
 						</tr>
 					</thead>
 					<tbody>
-						<tr className="bg-white border-b">
-							<th
-								scope="row"
-								className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-							>
-								1
-							</th>
-							<td className="px-6 py-4">Physics Lab</td>
-							<td className="px-6 py-4">Sonam Thinley</td>
-							<td className="px-6 py-4">Nu.340</td>
-							<td className="px-6 py-4">2 Magnifying Class</td>
-
-							<td className="px-6 py-4 text-start">Not Paid</td>
-						</tr>
-
-						<tr className="bg-white border-b">
-							<th
-								scope="row"
-								className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-							>
-								2
-							</th>
-							<td className="px-6 py-4">Physics Lab</td>
-							<td className="px-6 py-4">Sonam Thinley</td>
-							<td className="px-6 py-4">Nu.340</td>
-							<td className="px-6 py-4">Sonometer</td>
-
-							<td className="px-6 py-4 text-start">Not Paid</td>
-						</tr>
+						{studentDues.map((due, index) => (
+							<tr className="bg-white border-b" key={due._id}>
+								<th
+									scope="row"
+									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+								>
+									{index + 1}
+								</th>
+								<td className="px-6 py-4">{due.labName}</td>
+								<td className="px-6 py-4">{due.labInchargeName}</td>
+								<td className="px-6 py-4">{due.amount}</td>
+								<td className="px-6 py-4">{due.item}</td>
+								<td className="px-6 py-4">{due.remarks}</td>
+							</tr>
+						))}
 					</tbody>
 				</table>
 			</div>

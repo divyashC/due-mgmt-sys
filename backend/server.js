@@ -38,6 +38,7 @@ app.get("/getUsers", userController.getAllUsers);
 // Routes for dues
 app.post("/insertDues", duesController.insertDue);
 app.get("/getDues", duesController.getAllDues);
+app.get("/getDueByStudentNo/:stdNo", duesController.getDueByStudentNo);
 
 // Routes for restored items
 app.post("/insertRestoredItem", restoredController.insertRestoredItem);

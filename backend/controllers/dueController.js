@@ -52,3 +52,17 @@ exports.getAllDues = async (req, res) => {
 		res.status(500).json({ error: "Internal server error" });
 	}
 };
+
+// get dues for specific student, by student number
+exports.getDueByStudentNo = async (req, res) => {
+	try {
+		const dues = await Due.find({ stdNo: req.params.stdNo });
+
+		res.status(200).json(dues);
+	} catch (error) {
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+
+//show samople request
+// https://localhost:8000/getDueByStudentNo/02200174
