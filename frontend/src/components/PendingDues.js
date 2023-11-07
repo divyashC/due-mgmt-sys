@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import LineChart from "./LineChart";
 
 const PendingDues = () => {
+	const [duesData, setDuesData] = useState([]);
+
+	useEffect(() => {
+		// Make an API call to fetch dues data
+		fetch("http://localhost:8000/getDueAmountInLab")
+			.then((response) => response.json())
+			.then((data) => {
+				setDuesData(data);
+			})
+			.catch((error) => console.error("Error fetching data:", error));
+	}, []);
+
 	const lineChartData = {
-		labels: ["Lab A", "Lab B", "Lab C", "Lab D", "Lab E"],
+		labels: Object.keys(duesData),
 		datasets: [
 			{
 				label: "Amount Due",
-				data: [5000, 10000, 80000, 70000, 20000], // Replace with your data
+				data: Object.values(duesData), // Replace with your data
 				fill: false,
 				borderColor: "#D84315",
 				tension: 0.4,

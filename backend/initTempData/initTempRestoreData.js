@@ -22,7 +22,7 @@ const restoredData = [
 		itemName: "Dell Keyboard",
 		status: "restored",
 		quantity: 1,
-		date: "",
+		date: "05/11/2023",
 		damagedDate: "05/09/2023",
 		labName: "NLP Lab",
 	},

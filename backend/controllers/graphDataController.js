@@ -162,6 +162,30 @@ const getItemsRestoredPerMonth = async (req, res) => {
 	}
 };
 
+// Function to get pending dues in each lab
+const getDueAmountInLab = async (req, res) => {
+	try {
+		const dueData = await Dues.find(); // Fetch all dues data
+
+		const uniqueLabNames = [...new Set(dueData.map((item) => item.labName))];
+		const duesPerLab = {};
+
+		// Calculate pending dues for each lab
+		uniqueLabNames.forEach((labName) => {
+			const pendingDues = dueData
+				.filter((item) => item.labName === labName && item.dues === "unpaid")
+				.reduce((total, item) => total + item.amount, 0);
+
+			duesPerLab[labName] = pendingDues;
+		});
+
+		res.json(duesPerLab);
+	} catch (error) {
+		console.error("Error fetching dues per lab: ", error);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+
 module.exports = {
 	getLabNames,
 	getLabAmount,
@@ -171,4 +195,5 @@ module.exports = {
 	getAllLabAmount,
 	getAllLabItemsDamaged,
 	getItemsRestoredPerMonth,
+	getDueAmountInLab,
 };
