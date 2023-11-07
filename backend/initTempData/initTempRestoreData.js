@@ -6,16 +6,25 @@ const restoredData = [
 		itemName: "Beaker 100ml",
 		status: "restored",
 		quantity: 1,
+		date: "20/10/2023",
+		damagedDate: "15/09/2023",
+		labName: "Chemistry Lab",
 	},
 	{
 		itemName: "Voltmeter 100V",
 		status: "not-restored",
 		quantity: 1,
+		date: "",
+		damagedDate: "10/09/2023",
+		labName: "Physics Lab",
 	},
 	{
 		itemName: "Dell Keyboard",
 		status: "restored",
 		quantity: 1,
+		date: "05/11/2023",
+		damagedDate: "05/09/2023",
+		labName: "NLP Lab",
 	},
 ];
 

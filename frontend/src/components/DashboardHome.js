@@ -1,14 +1,78 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DoughnutChart from "./DoughnutChart";
 import BarChart from "./BarChart";
 import LineChart from "./LineChart";
 
 const DashboardHome = () => {
+	const [duesData, setDuesData] = useState([]);
+	const [dataSummary, setDataSummary] = useState([]);
+	const [labNames, setLabNames] = useState([]);
+	const [amountCollectedPerMonth, setAmountCollectedPerMonth] = useState([]);
+	const [itemsDamagedPerMonth, setItemsDamagedPerMonth] = useState([]);
+	const [labAmount, setLabAmount] = useState([]);
+	const [labItemsDamaged, setLabItemsDamaged] = useState([]);
+	const [itemsRestoredPerMonth, setItemsRestoredPerMonth] = useState([]);
+
+	useEffect(() => {
+		Promise.all([
+			fetch("http://localhost:8000/datasummary").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getDues").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/labNames").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/itemsDamagedPerMonth").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/amountCollectedPerMonth").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getAllLabAmount").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getAllLabItemsDamaged").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getItemsRestoredPerMonth").then((response) =>
+				response.json()
+			),
+		])
+			.then(
+				([
+					dataSummary,
+					duesData,
+					labNames,
+					itemsDamagedPerMonth,
+					amountCollectedPerMonth,
+					labAmount,
+					labItemsDamaged,
+					itemsRestoredPerMonth,
+				]) => {
+					setDataSummary(dataSummary);
+					setDuesData(duesData);
+					setLabNames(labNames);
+					setItemsDamagedPerMonth(itemsDamagedPerMonth);
+					setAmountCollectedPerMonth(amountCollectedPerMonth);
+					setLabAmount(labAmount);
+					setLabItemsDamaged(labItemsDamaged);
+					setItemsRestoredPerMonth(itemsRestoredPerMonth);
+				}
+			)
+			.catch((error) => {
+				console.error("Error fetching data: ", error);
+			});
+	}, []);
+
 	const doughnutChart1 = {
-		labels: ["Lab A", "Lab B", "Lab C", "Lab D", "Lab E"],
+		labels: labNames.map((name) => name),
+		// labels: duesData.map((data) => data.labName),
 		datasets: [
 			{
-				data: [15000, 20000, 18000, 25000, 17000], // Replace with your data
+				data: Object.values(labAmount),
+				// data: labAmount.map((amount) => amount),
 				backgroundColor: [
 					"#007BFF",
 					"#FFC107",
@@ -32,10 +96,11 @@ const DashboardHome = () => {
 	};
 
 	const doughnutChart2 = {
-		labels: ["Lab A", "Lab B", "Lab C", "Lab D", "Lab E"],
+		labels: labNames.map((name) => name),
 		datasets: [
 			{
-				data: [5000, 7500, 6000, 8500, 7000], // Replace with your data
+				data: Object.values(labItemsDamaged),
+				// data: labItemsDamaged.map((amount) => amount),
 				backgroundColor: [
 					"#007BFF",
 					"#FFC107",
@@ -58,19 +123,32 @@ const DashboardHome = () => {
 	};
 
 	const barChartData = {
-		labels: ["February", "March", "April", "May", "June", "July", "August"],
+		labels: [
+			"Jan",
+			"Feb",
+			"Mar",
+			"Apr",
+			"May",
+			"Jun",
+			"Jul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
+		],
 		datasets: [
 			{
 				label: "Amount Collected",
 				backgroundColor: "#D84315",
 				borderColor: "#D84315",
-				data: [5400, 1200, 2200, 3500, 4800, 6000, 750], // Replace with your data
+				data: amountCollectedPerMonth.map((amount) => amount),
 			},
 			{
 				label: "Items Damaged",
 				backgroundColor: "#28A745",
 				borderColor: "#28A745",
-				data: [5001, 413, 320, 430, 380, 290, 500], // Replace with your data
+				data: itemsDamagedPerMonth.map((amount) => amount),
 			},
 		],
 	};
@@ -109,18 +187,31 @@ const DashboardHome = () => {
 	};
 
 	const lineChartData = {
-		labels: ["February", "March", "April", "May", "June", "July", "August"],
+		labels: [
+			"Jan",
+			"Feb",
+			"Mar",
+			"Apr",
+			"May",
+			"Jun",
+			"Jul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
+		],
 		datasets: [
 			{
 				label: "Items Damaged",
-				data: [413, 250, 320, 430, 380, 290, 500], // Replace with your data
+				data: itemsDamagedPerMonth.map((amount) => amount),
 				fill: false,
 				borderColor: "#D84315",
 				tension: 0.4,
 			},
 			{
 				label: "Items Restored",
-				data: [300, 200, 260, 400, 350, 280, 450], // Replace with your data
+				data: itemsRestoredPerMonth.map((amount) => amount),
 				fill: false,
 				borderColor: "#28A745",
 				tension: 0.4,
@@ -166,13 +257,13 @@ const DashboardHome = () => {
 								Amount Collected
 							</dt>
 							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
-								Nu. 54,000
+								Nu. {dataSummary.amountCollected}
 							</dd>
 						</div>
 						<div className="flex flex-col max-w-xs p-5 mx-auto rounded-lg gap-y-2 bg-blue-50">
 							<dt className="text-base leading-7 text-sky-950">Amount Due</dt>
 							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
-								Nu. 12,000
+								Nu. {dataSummary.amountDue}
 							</dd>
 						</div>
 						<div className="flex flex-col max-w-xs p-5 mx-auto rounded-lg gap-y-2 bg-blue-50">
@@ -180,15 +271,15 @@ const DashboardHome = () => {
 								Items Damaged
 							</dt>
 							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
-								413
+								{dataSummary.itemsDamaged}
 							</dd>
 						</div>
 						<div className="flex flex-col max-w-xs p-5 mx-auto rounded-lg gap-y-2 bg-blue-50">
 							<dt className="text-base leading-7 text-sky-950">
-								Student with Dues
+								Students with Dues
 							</dt>
 							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
-								39
+								{dataSummary.studentsWithDues}
 							</dd>
 						</div>
 					</dl>
@@ -254,39 +345,23 @@ const DashboardHome = () => {
 						</tr>
 					</thead>
 					<tbody>
-						<tr className="bg-white border-b">
-							<th
-								scope="row"
-								className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-							>
-								1
-							</th>
-							<td className="px-6 py-4">Chemistry Lab</td>
-							<td className="px-6 py-4">Gembo</td>
-							<td className="px-6 py-4">Beaker</td>
-							<td className="px-6 py-4">2023-08-01</td>
-							<td className="px-6 py-4">Nu.300</td>
-							<td className="px-6 py-4">2023-08-05</td>
-							<td className="px-6 py-4">Restored</td>
-						</tr>
-
-						<tr className="bg-white border-b">
-							<th
-								scope="row"
-								className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-							>
-								2
-							</th>
-							<td className="px-6 py-4">Physics Lab</td>
-							<td className="px-6 py-4">Karma Chophel</td>
-							<td className="px-6 py-4">Sono Meter</td>
-							<td className="px-6 py-4">2023-08-02</td>
-							<td className="px-6 py-4">Nu.2000</td>
-							<td className="px-6 py-4">N/A</td>
-							<td className="px-6 py-4">Not Restored</td>
-						</tr>
-
-						{/* Add 3 more rows of data here */}
+						{duesData.map((data, index) => (
+							<tr className="bg-white border-b" key={index}>
+								<th
+									scope="row"
+									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+								>
+									{index + 1}
+								</th>
+								<td className="px-6 py-4">{data.labName}</td>
+								<td className="px-6 py-4">{data.labInchargeName}</td>
+								<td className="px-6 py-4">{data.item}</td>
+								<td className="px-6 py-4 text-start">{data.date}</td>
+								<td className="px-6 py-4">Nu. {data.amount}</td>
+								<td className="px-6 py-4 text-start">{data.date}</td>
+								<td className="px-6 py-4 text-start">{data.dues}</td>
+							</tr>
+						))}
 					</tbody>
 				</table>
 			</div>

@@ -4,13 +4,16 @@ const Restored = require("../models/Restored");
 exports.insertRestoredItem = async (req, res) => {
 	try {
 		// Extract restored item data from the request body
-		const { itemName, status, quantity } = req.body;
+		const { itemName, status, quantity, date, damagedDate, labName } = req.body;
 
 		// Create a new restored item
 		const newRestoredItem = new Restored({
 			itemName,
 			status,
 			quantity,
+			date,
+			damagedDate,
+			labName,
 		});
 
 		// Save the new restored item to the database
