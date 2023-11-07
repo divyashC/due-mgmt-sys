@@ -1,5 +1,6 @@
 // graphDataController.js
-const Dues = require("../models/Due"); // Import your Due model here
+const Dues = require("../models/Due");
+const Restored = require("../models/Restored");
 
 // Function to fetch lab names
 const getLabNames = async (req, res) => {
@@ -94,10 +95,80 @@ const getItemsDamagedPerMonth = async (req, res) => {
 	}
 };
 
+// Function to fetch all lab amounts
+const getAllLabAmount = async (req, res) => {
+	try {
+		const labNames = await Dues.distinct("labName");
+		const labAmounts = {};
+
+		for (const labName of labNames) {
+			const duesData = await Dues.find({ labName, dues: "paid" });
+			const totalAmount = duesData.reduce(
+				(total, item) => total + item.amount,
+				0
+			);
+			labAmounts[labName] = totalAmount;
+		}
+
+		res.json(labAmounts);
+	} catch (error) {
+		console.error("Error fetching all lab amounts: ", error);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+
+// Function to fetch all lab items damaged
+const getAllLabItemsDamaged = async (req, res) => {
+	try {
+		const labNames = await Dues.distinct("labName");
+		const labItemsDamaged = {};
+
+		for (const labName of labNames) {
+			const duesData = await Dues.find({ labName });
+			labItemsDamaged[labName] = duesData.length;
+		}
+
+		res.json(labItemsDamaged);
+	} catch (error) {
+		console.error("Error fetching all lab items damaged: ", error);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+
+// Function to fetch items restored per month
+const getItemsRestoredPerMonth = async (req, res) => {
+	try {
+		const restoredData = await Restored.find();
+
+		const months = Array.from({ length: 12 }, (_, i) =>
+			(i + 1).toString().padStart(2, "0")
+		);
+
+		const itemsRestoredPerMonth = months.map((month) => {
+			const itemsInMonth = restoredData.filter((item) => {
+				if (item.status === "restored" && item.date.includes(`/${month}/`)) {
+					return true;
+				}
+				return false;
+			});
+
+			return itemsInMonth.length;
+		});
+
+		res.json(itemsRestoredPerMonth);
+	} catch (error) {
+		console.error("Error fetching items restored per month: ", error);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+
 module.exports = {
 	getLabNames,
 	getLabAmount,
 	getLabItemsDamaged,
 	getAmountCollectedPerMonth,
 	getItemsDamagedPerMonth,
+	getAllLabAmount,
+	getAllLabItemsDamaged,
+	getItemsRestoredPerMonth,
 };

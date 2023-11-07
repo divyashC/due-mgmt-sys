@@ -4,95 +4,65 @@ import BarChart from "./BarChart";
 import LineChart from "./LineChart";
 
 const DashboardHome = () => {
-	const [dataSummary, setDataSummary] = useState([]);
 	const [duesData, setDuesData] = useState([]);
+	const [dataSummary, setDataSummary] = useState([]);
 	const [labNames, setLabNames] = useState([]);
-	const [labAmount, setLabAmount] = useState([]);
-	const [labItemsDamaged, setLabItemsDamaged] = useState([]);
 	const [amountCollectedPerMonth, setAmountCollectedPerMonth] = useState([]);
 	const [itemsDamagedPerMonth, setItemsDamagedPerMonth] = useState([]);
+	const [labAmount, setLabAmount] = useState([]);
+	const [labItemsDamaged, setLabItemsDamaged] = useState([]);
+	const [itemsRestoredPerMonth, setItemsRestoredPerMonth] = useState([]);
 
 	useEffect(() => {
-		// Simulate an API call to fetch data summary
-		fetch("http://localhost:8000/datasummary")
-			.then((response) => response.json())
-			.then((data) => {
-				setDataSummary(data);
-			})
+		Promise.all([
+			fetch("http://localhost:8000/datasummary").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getDues").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/labNames").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/itemsDamagedPerMonth").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/amountCollectedPerMonth").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getAllLabAmount").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getAllLabItemsDamaged").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getItemsRestoredPerMonth").then((response) =>
+				response.json()
+			),
+		])
+			.then(
+				([
+					dataSummary,
+					duesData,
+					labNames,
+					itemsDamagedPerMonth,
+					amountCollectedPerMonth,
+					labAmount,
+					labItemsDamaged,
+					itemsRestoredPerMonth,
+				]) => {
+					setDataSummary(dataSummary);
+					setDuesData(duesData);
+					setLabNames(labNames);
+					setItemsDamagedPerMonth(itemsDamagedPerMonth);
+					setAmountCollectedPerMonth(amountCollectedPerMonth);
+					setLabAmount(labAmount);
+					setLabItemsDamaged(labItemsDamaged);
+					setItemsRestoredPerMonth(itemsRestoredPerMonth);
+				}
+			)
 			.catch((error) => {
-				console.error("Error fetching data summary: ", error);
-			});
-	}, []);
-
-	useEffect(() => {
-		// Simulate an API call to fetch dues data
-		fetch("http://localhost:8000/getDues")
-			.then((response) => response.json())
-			.then((data) => {
-				setDuesData(data);
-
-				const uniqueLabNames = [...new Set(data.map((item) => item.labName))];
-				const labAmounts = labNames.map((labName) =>
-					data
-						.filter((item) => item.labName === labName && item.dues === "paid")
-						.reduce((total, item) => total + item.amount, 0)
-				);
-				const labItemsDamaged = labNames.map(
-					(labName) => data.filter((item) => item.labName === labName).length
-				);
-				const months = Array.from({ length: 12 }, (_, i) => i + 1);
-
-				// Initialize an object to store the total amount collected for each month
-				const amountCollectedPerMonth = months.reduce((acc, month) => {
-					const formattedMonth = month.toString().padStart(2, "0");
-					const itemsInMonth = data.filter((item) => {
-						const itemDate = item.date.split("/");
-						return itemDate[1] === formattedMonth && item.dues === "paid";
-					});
-					const totalAmount = itemsInMonth.reduce(
-						(sum, item) => sum + item.amount,
-						0
-					);
-					acc[formattedMonth] = totalAmount;
-					return acc;
-				}, {});
-
-				const amountCollectedPerMonthArray = months.map((month) => {
-					const formattedMonth = month.toString().padStart(2, "0");
-					return amountCollectedPerMonth[formattedMonth] || 0;
-				});
-
-				// Initialize an object to store the total number of items damaged for each month
-				const itemsDamagedPerMonth = months.reduce((acc, month) => {
-					// Format the month as "01" for January, "02" for February, and so on
-					const formattedMonth = month.toString().padStart(2, "0");
-
-					// Filter the data for items with the same month
-					const itemsInMonth = data.filter((item) => {
-						const itemDate = item.date.split("/"); // Split the date into [day, month, year]
-						return itemDate[1] === formattedMonth;
-					});
-
-					// Store the total amount in the object
-					acc[formattedMonth] = itemsInMonth.length;
-
-					return acc;
-				}, {});
-
-				// Convert the object to an array of total items damaged per month, filling in zeros for missing months
-				const itemsDamagedPerMonthArray = months.map((month) => {
-					const formattedMonth = month.toString().padStart(2, "0");
-					return itemsDamagedPerMonth[formattedMonth] || 0;
-				});
-
-				setLabNames(uniqueLabNames);
-				setLabAmount(labAmounts);
-				setLabItemsDamaged(labItemsDamaged);
-				setAmountCollectedPerMonth(amountCollectedPerMonthArray);
-				setItemsDamagedPerMonth(itemsDamagedPerMonthArray);
-			})
-			.catch((error) => {
-				console.error("Error fetching dues data: ", error);
+				console.error("Error fetching data: ", error);
 			});
 	}, []);
 
@@ -101,7 +71,8 @@ const DashboardHome = () => {
 		// labels: duesData.map((data) => data.labName),
 		datasets: [
 			{
-				data: labAmount.map((amount) => amount),
+				data: Object.values(labAmount),
+				// data: labAmount.map((amount) => amount),
 				backgroundColor: [
 					"#007BFF",
 					"#FFC107",
@@ -128,7 +99,8 @@ const DashboardHome = () => {
 		labels: labNames.map((name) => name),
 		datasets: [
 			{
-				data: labItemsDamaged.map((amount) => amount),
+				data: Object.values(labItemsDamaged),
+				// data: labItemsDamaged.map((amount) => amount),
 				backgroundColor: [
 					"#007BFF",
 					"#FFC107",
@@ -215,18 +187,31 @@ const DashboardHome = () => {
 	};
 
 	const lineChartData = {
-		labels: ["February", "March", "April", "May", "June", "July", "August"],
+		labels: [
+			"Jan",
+			"Feb",
+			"Mar",
+			"Apr",
+			"May",
+			"Jun",
+			"Jul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
+		],
 		datasets: [
 			{
 				label: "Items Damaged",
-				data: [413, 250, 320, 430, 380, 290, 500], // Replace with your data
+				data: itemsDamagedPerMonth.map((amount) => amount),
 				fill: false,
 				borderColor: "#D84315",
 				tension: 0.4,
 			},
 			{
 				label: "Items Restored",
-				data: [300, 200, 260, 400, 350, 280, 450], // Replace with your data
+				data: itemsRestoredPerMonth.map((amount) => amount),
 				fill: false,
 				borderColor: "#28A745",
 				tension: 0.4,

@@ -76,7 +76,13 @@ app.get(
 	"/amountCollectedPerMonth",
 	graphDataController.getAmountCollectedPerMonth
 );
+app.get("/getAllLabAmount", graphDataController.getAllLabAmount);
+app.get("/getAllLabItemsDamaged", graphDataController.getAllLabItemsDamaged);
 app.get("/itemsDamagedPerMonth", graphDataController.getItemsDamagedPerMonth);
+app.get(
+	"/getItemsRestoredPerMonth",
+	graphDataController.getItemsRestoredPerMonth
+);
 
 app.listen(8000, () => {
 	console.log("Server has started on port 8000");
