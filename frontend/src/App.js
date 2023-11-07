@@ -6,7 +6,7 @@ import Profile from "./pages/Profile.js";
 import NavBar from "./components/NavBar.js";
 import Dashboard from "./pages/Dashboard.js";
 import ContactUs from "./pages/ContactUs.js";
-
+import Home from "./pages/Home.js";
 
 const Layout = ({ children }) => {
 	return (
@@ -65,6 +65,14 @@ const App = () => {
 					element={
 						<Layout>
 							<ContactUs />
+						</Layout>
+					}
+				/>
+				<Route
+					path="/home"
+					element={
+						<Layout>
+							<Home />
 						</Layout>
 					}
 				/>
