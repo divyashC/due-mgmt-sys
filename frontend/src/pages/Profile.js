@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ProfileCard from "../components/ProfileCard.js";
 import Table from "../components/Table.js";
-import AddBtn from "../components/AddBtn.js";
 import StudentTable from "../components/StudentTable.js";
 import AdministrationTable from "../components/AdministrationTable.js";
 
@@ -34,11 +33,6 @@ const Profile = () => {
 					<ProfileCard />
 				</div>
 				<div className="flex-1">
-					{userType === "Staff" && (
-						<div className="flex justify-end mt-8 mr-12">
-							<AddBtn />
-						</div>
-					)}
 					{userType === "Student" && (
 						<StudentTable
 							stdNo={userDetails.email.split("@")[0].split(".")[0]}
