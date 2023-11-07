@@ -1,5 +1,6 @@
 import React from "react";
 import ClearDuesModal from './ClearDuesModal';
+import AddBtn from "../components/AddBtn.js";
 
 const Table = () => {
 	const [isClearDuesModalOpen, setIsClearDuesModalOpen] = useState(false);
@@ -22,13 +23,9 @@ const Table = () => {
 
 	return (
 		<>
-			{/* <div className="flex items-center justify-center mt-5">
-				<SearchBar />
-			</div>
-
 			<div className="flex justify-end mr-12">
 				<AddBtn />
-			</div> */}
+			</div>
 
 			<div className="relative mx-12 mt-10 overflow-x-auto shadow-md sm:rounded-lg">
 				<table className="w-full text-sm text-left text-gray-500">
