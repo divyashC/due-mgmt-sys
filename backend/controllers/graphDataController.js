@@ -145,6 +145,27 @@ const getAllLabAmount = async (req, res) => {
 	}
 };
 
+// Function to fetch all lab due amounts
+const getAllLabDues = async (req, res) => {
+	try {
+		const labNames = await Dues.distinct("labName");
+		const labAmounts = {};
+
+		for (const labName of labNames) {
+			const duesData = await Dues.find({ labName, dues: "unpaid" });
+			const totalAmount = duesData.reduce(
+				(total, item) => total + item.amount,
+				0
+			);
+			labAmounts[labName] = totalAmount;
+		}
+
+		res.json(labAmounts);
+	} catch (error) {
+		console.error("Error fetching all lab amounts: ", error);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
 // Function to fetch all lab items damaged
 const getAllLabItemsDamaged = async (req, res) => {
 	try {
@@ -225,4 +246,5 @@ module.exports = {
 	getAllLabItemsDamaged,
 	getItemsRestoredPerMonth,
 	getDueAmountInLab,
+	getAllLabDues,
 };

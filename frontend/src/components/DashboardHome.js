@@ -372,7 +372,10 @@ const DashboardHome = () => {
 								<td className="px-6 py-4">Nu. {data.amount}</td>
 								<td className="px-6 py-4 text-start">
 									{restoredData.map((restoredItem) => {
-										if (data.item === restoredItem.itemName) {
+										if (
+											data.item === restoredItem.itemName &&
+											data.date === restoredItem.damagedDate
+										) {
 											if (restoredItem.date === "") {
 												return "Not Restored";
 											} else {

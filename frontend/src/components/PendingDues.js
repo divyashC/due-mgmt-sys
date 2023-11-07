@@ -124,7 +124,10 @@ const PendingDues = () => {
 								<td className="px-6 py-4">Nu. {data.amount}</td>
 								<td className="px-6 py-4 text-start">
 									{restoredData.map((restoredItem) => {
-										if (data.item === restoredItem.itemName) {
+										if (
+											data.item === restoredItem.itemName &&
+											data.date === restoredItem.damagedDate
+										) {
 											if (restoredItem.date === "") {
 												return "Not Restored";
 											} else {
@@ -134,11 +137,18 @@ const PendingDues = () => {
 									})}
 								</td>
 								<td className="px-6 py-4 text-start">
-									{restoredData.map((restoredItem) =>
-										data.item === restoredItem.itemName
-											? restoredItem.status
-											: null
-									)}
+									{restoredData.map((restoredItem) => {
+										if (
+											data.item === restoredItem.itemName &&
+											data.date === restoredItem.damagedDate
+										) {
+											if (restoredItem.date === "") {
+												return "Not Restored";
+											} else {
+												return restoredItem.status;
+											}
+										}
+									})}
 								</td>
 							</tr>
 						))}

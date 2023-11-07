@@ -6,10 +6,11 @@ const restoredData = [
 		itemName: "Beaker 100ml",
 		status: "restored",
 		quantity: 1,
-		date: "20/10/2023",
-		damagedDate: "15/09/2023",
+		date: "30/07/2023",
+		damagedDate: "25/07/2023",
 		labName: "Chemistry Lab",
-	},{
+	},
+	{
 		itemName: "Beaker 100ml",
 		status: "restored",
 		quantity: 1,
@@ -33,7 +34,7 @@ const restoredData = [
 		damagedDate: "11/05/2023",
 		labName: "Physics Lab",
 	},
-	
+
 	{
 		itemName: "Dell Keyboard",
 		status: "restored",
@@ -43,7 +44,7 @@ const restoredData = [
 		labName: "NLP Lab",
 	},
 	{
-		itemName:"mouse and mouse pad",
+		itemName: "mouse and mouse pad",
 		status: "restored",
 		quantity: 1,
 		date: "06/7/2023",

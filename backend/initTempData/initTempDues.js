@@ -26,7 +26,7 @@ const dueData = [
 		labName: "Chemistry Lab",
 		dept: "Science & Humanities Department",
 		item: "Beaker 100ml",
-		dues: "paid",
+		dues: "unpaid",
 	},
 	{
 		name: "Kiran Rai",
@@ -52,7 +52,7 @@ const dueData = [
 		labName: "Physics Lab",
 		dept: "Science & Humanities Department",
 		item: "Vernier Caliper",
-		dues: "paid",
+		dues: "unpaid",
 	},
 	{
 		name: "Thinley Choden",
@@ -65,7 +65,7 @@ const dueData = [
 		labName: "NLP Lab",
 		item: "Dell Keyboard",
 		dept: "IT Department",
-		dues: "paid",
+		dues: "unpaid",
 	},
 	{
 		name: "Sonam Dema",
@@ -78,7 +78,7 @@ const dueData = [
 		labName: "NLP Lab",
 		item: "Mouse and mouse-pad",
 		dept: "IT Department",
-		dues: "paid",
+		dues: "unpaid",
 	},
 ];
 
