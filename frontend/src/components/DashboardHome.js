@@ -8,10 +8,12 @@ const DashboardHome = () => {
 	const [dataSummary, setDataSummary] = useState([]);
 	const [labNames, setLabNames] = useState([]);
 	const [amountCollectedPerMonth, setAmountCollectedPerMonth] = useState([]);
+	const [amountDuePerMonth, setAmountDuePerMonth] = useState([]);
 	const [itemsDamagedPerMonth, setItemsDamagedPerMonth] = useState([]);
 	const [labAmount, setLabAmount] = useState([]);
 	const [labItemsDamaged, setLabItemsDamaged] = useState([]);
 	const [itemsRestoredPerMonth, setItemsRestoredPerMonth] = useState([]);
+	const [restoredData, setRestoredData] = useState([]);
 
 	useEffect(() => {
 		Promise.all([
@@ -27,6 +29,9 @@ const DashboardHome = () => {
 			fetch("http://localhost:8000/itemsDamagedPerMonth").then((response) =>
 				response.json()
 			),
+			fetch("http://localhost:8000/amountDuePerMonth").then((response) =>
+				response.json()
+			),
 			fetch("http://localhost:8000/amountCollectedPerMonth").then((response) =>
 				response.json()
 			),
@@ -39,6 +44,9 @@ const DashboardHome = () => {
 			fetch("http://localhost:8000/getItemsRestoredPerMonth").then((response) =>
 				response.json()
 			),
+			fetch("http://localhost:8000/getAllRestoredItems").then((response) =>
+				response.json()
+			),
 		])
 			.then(
 				([
@@ -46,19 +54,23 @@ const DashboardHome = () => {
 					duesData,
 					labNames,
 					itemsDamagedPerMonth,
+					amountDuePerMonth,
 					amountCollectedPerMonth,
 					labAmount,
 					labItemsDamaged,
 					itemsRestoredPerMonth,
+					restoredData,
 				]) => {
 					setDataSummary(dataSummary);
 					setDuesData(duesData);
 					setLabNames(labNames);
 					setItemsDamagedPerMonth(itemsDamagedPerMonth);
+					setAmountDuePerMonth(amountDuePerMonth);
 					setAmountCollectedPerMonth(amountCollectedPerMonth);
 					setLabAmount(labAmount);
 					setLabItemsDamaged(labItemsDamaged);
 					setItemsRestoredPerMonth(itemsRestoredPerMonth);
+					setRestoredData(restoredData);
 				}
 			)
 			.catch((error) => {
@@ -145,10 +157,10 @@ const DashboardHome = () => {
 				data: amountCollectedPerMonth.map((amount) => amount),
 			},
 			{
-				label: "Items Damaged",
+				label: "Amount Due",
 				backgroundColor: "#28A745",
 				borderColor: "#28A745",
-				data: itemsDamagedPerMonth.map((amount) => amount),
+				data: amountDuePerMonth.map((amount) => amount),
 			},
 		],
 	};
@@ -289,7 +301,7 @@ const DashboardHome = () => {
 			<div className="flex items-center w-full p-2 mb-16 align-middle gap-x-14">
 				<div className="w-4/5">
 					<h4 className="text-lg font-semibold text-sky-950">
-						Amount Collected & Items Damaged
+						Amount Collected & Amount Due
 					</h4>
 					<BarChart data={barChartData} options={barChartOptions} />
 				</div>
@@ -358,7 +370,17 @@ const DashboardHome = () => {
 								<td className="px-6 py-4">{data.item}</td>
 								<td className="px-6 py-4 text-start">{data.date}</td>
 								<td className="px-6 py-4">Nu. {data.amount}</td>
-								<td className="px-6 py-4 text-start">{data.date}</td>
+								<td className="px-6 py-4 text-start">
+									{restoredData.map((restoredItem) => {
+										if (data.item === restoredItem.itemName) {
+											if (restoredItem.date === "") {
+												return "Not Restored";
+											} else {
+												return restoredItem.date;
+											}
+										}
+									})}
+								</td>
 								<td className="px-6 py-4 text-start">{data.dues}</td>
 							</tr>
 						))}

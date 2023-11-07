@@ -9,6 +9,13 @@ const restoredData = [
 		date: "20/10/2023",
 		damagedDate: "15/09/2023",
 		labName: "Chemistry Lab",
+	},{
+		itemName: "Beaker 100ml",
+		status: "restored",
+		quantity: 1,
+		date: "25/07/2023",
+		damagedDate: "15/09/2023",
+		labName: "Chemistry Lab",
 	},
 	{
 		itemName: "Voltmeter 100V",
@@ -19,10 +26,27 @@ const restoredData = [
 		labName: "Physics Lab",
 	},
 	{
+		itemName: "Vernier Caliper",
+		status: "not-restored",
+		quantity: 1,
+		date: "",
+		damagedDate: "11/05/2023",
+		labName: "Physics Lab",
+	},
+	
+	{
 		itemName: "Dell Keyboard",
 		status: "restored",
 		quantity: 1,
 		date: "05/11/2023",
+		damagedDate: "05/09/2023",
+		labName: "NLP Lab",
+	},
+	{
+		itemName:"mouse and mouse pad",
+		status: "restored",
+		quantity: 1,
+		date: "06/7/2023",
 		damagedDate: "05/09/2023",
 		labName: "NLP Lab",
 	},
