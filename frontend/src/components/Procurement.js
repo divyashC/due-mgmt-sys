@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DoughnutChart from "./DoughnutChart";
 
-const Table = () => {
+const Procurement = () => {
 	const [duesData, setDuesData] = useState([]);
 	const [restoredData, setRestoredData] = useState([]);
 
@@ -108,4 +108,4 @@ const Table = () => {
 	);
 };
 
-export default Table;
+export default Procurement;
