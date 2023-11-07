@@ -1,13 +1,19 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 const ClearDuesModal = ({ isOpen, onClose, onClear, onCancel }) => {
+  const [isConfirmed, setConfirmed] = useState(false);
   const cancelButtonRef = useRef(null);
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 z-10" initialFocus={cancelButtonRef} onClose={onClose}>
+      <Dialog
+        as="div"
+        className="fixed inset-0 z-10"
+        initialFocus={cancelButtonRef}
+        onClose={onClose}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -38,30 +44,44 @@ const ClearDuesModal = ({ isOpen, onClose, onClear, onCancel }) => {
                   </div>
                   <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                      Are you sure you want to clear the dues?
+                      {isConfirmed
+                        ? "Dues Cleared"
+                        : "Are you sure you want to clear the dues?"}
                     </Dialog.Title>
                   </div>
                 </div>
               </div>
               <div className="px-4 py-3 bg-gray-50 sm:flex sm:flex-row-reverse sm:px-6">
-                <button
-                  ref={cancelButtonRef}
-                  type="button"
-                  className="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white bg-green-500 rounded-md shadow-sm hover:bg-green-600 sm:ml-3 sm:w-auto"
-                  onClick={() => {
-                    onClear();
-                    onClose();
-                  }}
-                >
-                  Yes
-                </button>
-                <button
-                  type="button"
-                  className="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white bg-red-600 rounded-md shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                  onClick={onCancel}
-                >
-                  No
-                </button>
+                {isConfirmed ? (
+                  <button
+                    type="button"
+                    className="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white bg-green-600 rounded-md shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
+                    onClick={onClose}
+                  >
+                    OK
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      ref={cancelButtonRef}
+                      type="button"
+                      className="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white bg-green-600 rounded-md shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
+                      onClick={() => {
+                        onClear();
+                        setConfirmed(true);
+                      }}
+                    >
+                      Yes
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white bg-red-600 rounded-md shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                      onClick={onCancel}
+                    >
+                      No
+                    </button>
+                  </>
+                )}
               </div>
             </Dialog.Panel>
           </Transition.Child>
@@ -72,3 +92,4 @@ const ClearDuesModal = ({ isOpen, onClose, onClear, onCancel }) => {
 };
 
 export default ClearDuesModal;
+
