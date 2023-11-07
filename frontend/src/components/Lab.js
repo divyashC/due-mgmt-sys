@@ -56,7 +56,7 @@ const Lab = ({ labName }) => {
 		</div>
 	  </div>
 	</div>
-	<div><LabEquimentsList/></div>
+	<div><LabEquimentsList labName={labName}/></div>
   </div>
  
   
