@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import LoginErrorModal from "../components/LoginErrorModal";
 import LoginSuccessModal from "../components/LoginSuccessModal";
+import { Link } from "react-router-dom";
 import ProgressBar from "../components/ProgressBar";
 
 const Login = () => {
@@ -121,12 +122,12 @@ const Login = () => {
 								Password
 							</label>
 							<div className="text-sm">
-								<a
-									href="#"
+								<Link
+									to="/"
 									className="font-semibold text-sky-950 hover:text-indigo-500"
 								>
 									Forgot password?
-								</a>
+								</Link>
 							</div>
 						</div>
 						<div className="mt-2">

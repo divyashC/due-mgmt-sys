@@ -1,7 +1,5 @@
 import React from "react";
-import AddBtn from "./AddBtn";
 import DoughnutChart from "./DoughnutChart";
-import SearchBar from "./SearchBar";
 
 const Table = () => {
 	const chartData1 = {

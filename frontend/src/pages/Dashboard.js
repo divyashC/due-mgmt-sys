@@ -6,8 +6,6 @@ import Procurement from "../components/Procurement.js";
 import PendingDues from "../components/PendingDues.js";
 import Equipments from "../components/Equipments.js";
 import Lab from "../components/Lab.js";
-import { Icon } from '@iconify/react';
-
 
 const Dashboard = () => {
 	const [showLaboratoriesSubMenu, setShowLaboratoriesSubMenu] = useState(false);
@@ -137,8 +135,7 @@ const Dashboard = () => {
 									{/* Dummy submenu items */}
 									<li>
 										<div className="px-2" onClick={handleCivilEngineeringClick}>
-										<i class="bi bi-person-fill"></i>
-											{" "}
+											<i class="bi bi-person-fill"></i>{" "}
 											<span className="p-0">Human and Science</span>
 											{showCivilEngineeringSubMenu ? (
 												<i
@@ -154,13 +151,14 @@ const Dashboard = () => {
 										{showCivilEngineeringSubMenu && (
 											<ul>
 												<li>
-													
 													<div
 														className="p-2 ml-5"
 														onClick={() => handleSubMenuItemClick("Chemistry")}
 													>
 														<i class="bi bi-eyedropper"></i>
-														<span className="p-2"><button>Chemistry Lab</button></span>
+														<span className="p-2">
+															<button>Chemistry Lab</button>
+														</span>
 													</div>
 												</li>
 												<li>
@@ -169,7 +167,9 @@ const Dashboard = () => {
 														onClick={() => handleSubMenuItemClick("Physics")}
 													>
 														<i class="bi bi-magnet-fill"></i>
-														<span className="p-2"><button>Physics Lab</button></span>
+														<span className="p-2">
+															<button>Physics Lab</button>
+														</span>
 													</div>
 												</li>
 												{/* Add more submenu items for Civil Engineering */}
@@ -177,10 +177,8 @@ const Dashboard = () => {
 										)}
 									</li>
 									<li>
-										
 										<div className="p-2" onClick={handleArchitectureClick}>
-										<i class="bi bi-laptop-fill"></i>
-											{" "}
+											<i class="bi bi-laptop-fill"></i>{" "}
 											<span className="p-0">IT Department</span>
 											{showArchitectureSubMenu ? (
 												<i
@@ -200,7 +198,9 @@ const Dashboard = () => {
 														onClick={() => handleSubMenuItemClick("NLP")}
 													>
 														<i class="bi bi-laptop"></i>
-														<span className="p-2"><button> NLP Lab</button></span>
+														<span className="p-2">
+															<button> NLP Lab</button>
+														</span>
 													</div>
 												</li>
 
