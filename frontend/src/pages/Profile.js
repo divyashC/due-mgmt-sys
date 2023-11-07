@@ -103,6 +103,21 @@ const Profile = () => {
 	const userDetails = JSON.parse(localStorage.getItem("userDetails"));
 	const userType = userDetails ? userDetails.userType : null;
 
+	if (userDetails === null) {
+		localStorage.setItem(
+			"userDetails",
+			JSON.stringify({
+				fullName: "Karma Chophel",
+				email: "karmachophel.cst@rub.edu.bt",
+				phoneNo: "17171717",
+				department: "Science & Humanities Department",
+				userType: "Staff",
+				role: "Physics Lab Incharge",
+				password: "Cst@12345",
+			})
+		);
+	}
+
 	return (
 		<>
 			<div className="flex mt-10">
