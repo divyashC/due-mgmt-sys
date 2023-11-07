@@ -3,7 +3,6 @@ import ClearDuesModal from "./ClearDuesModal";
 import StudentDetailsModal from "./StudentDetailsModal";
 import AddBtn from "../components/AddBtn.js";
 import RestoredCheckboxModal from "./RestoredCheckboxModal.js";
-import { CurrencyBangladeshiIcon } from "@heroicons/react/24/outline";
 
 const Table = ({ labName }) => {
 	const [duesData, setDuesData] = useState([]);
@@ -11,13 +10,31 @@ const Table = ({ labName }) => {
 	const [isClearDuesModalOpen, setIsClearDuesModalOpen] = useState(false);
 	const [isStudentDetailsModalOpen, setIsStudentDetailsModalOpen] =
 		useState(false);
-	const [isDuesCleared, setIsDuesCleared] = useState(false);
-	const [id, setId] = useState(null);
 	const [isRestoredCheckboxModalOpen, setIsRestoredCheckboxModalOpen] =
 		useState(false);
-	const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+	const [selectedItemId, setSelectedItemId] = useState(null);
+	const [isDueCleared, setIsDuesCleared] = useState(false);
+	const [id, setId] = useState(null);
+	const [selectedStudent, setSelectedStudent] = useState(null);
 	const [isRestored, setIsRestored] = useState(false);
-	const [selectedStudent, setSelectedStudent] = useState(null); // Store selected student data
+
+	useEffect(() => {
+		Promise.all([
+			fetch("http://localhost:8000/getDues").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getAllRestoredItems").then((response) =>
+				response.json()
+			),
+		])
+			.then(([duesData, restoredData]) => {
+				setDuesData(duesData);
+				setRestoredData(restoredData);
+			})
+			.catch((error) => {
+				console.error("Error fetching data: ", error);
+			});
+	}, []);
 
 	useEffect(() => {
 		Promise.all([
@@ -54,10 +71,6 @@ const Table = ({ labName }) => {
 			return unique;
 		}, []);
 
-	const onClearDues = () => {
-		setIsDuesCleared(true);
-	};
-
 	const clearDue = (id) => {
 		if (id) {
 			fetch(`http://localhost:8000/updateDues/${id}`, {
@@ -89,31 +102,12 @@ const Table = ({ labName }) => {
 	};
 
 	const handleRestoredCheckboxClick = (id) => {
-		// Make the PUT request to update the restored status
-		if (id) {
-			fetch(`http://localhost:8000/updateRestored/${id}`, {
-				method: "PUT",
-			})
-				.then((response) => {
-					if (response.ok) {
-						fetch("http://localhost:8000/getAllRestoredItems")
-							.then((response) => response.json())
-							.then((data) => {
-								setRestoredData(data);
-							})
-							.catch((error) => {
-								console.error("Error fetching data: ", error);
-							});
-					} else {
-						console.error("Failed to update restored status");
-					}
-				})
-				.catch((error) => {
-					console.error("Error calling the API: ", error);
-				});
-		} else {
-			console.error("Invalid restored item ID");
-		}
+		setSelectedItemId(id); // Store the selected item ID
+		setIsRestoredCheckboxModalOpen(true);
+	};
+
+	const onClearDues = () => {
+		setIsClearDuesModalOpen(true);
 	};
 
 	const openClearDuesModal = (id) => {
@@ -308,10 +302,36 @@ const Table = ({ labName }) => {
 				onClose={closeStudentDetailsModal}
 				studentData={selectedStudent}
 			/>
+
 			<RestoredCheckboxModal
 				isOpen={isRestoredCheckboxModalOpen}
-				onClose={closeRestoredCheckboxModal}
-				onConfirm={handleRestoredConfirmation}
+				onClose={() => setIsRestoredCheckboxModalOpen(false)}
+				onConfirm={(confirmed) => {
+					if (confirmed) {
+						// Make the PUT request to update the restored status
+						fetch(`http://localhost:8000/updateRestored/${selectedItemId}`, {
+							method: "PUT",
+						})
+							.then((response) => {
+								if (response.ok) {
+									fetch("http://localhost:8000/getAllRestoredItems")
+										.then((response) => response.json())
+										.then((data) => {
+											setRestoredData(data);
+										})
+										.catch((error) => {
+											console.error("Error fetching data: ", error);
+										});
+								} else {
+									console.error("Failed to update restored status");
+								}
+							})
+							.catch((error) => {
+								console.error("Error calling the API: ", error);
+							});
+					}
+					setIsRestoredCheckboxModalOpen(false);
+				}}
 			/>
 		</>
 	);

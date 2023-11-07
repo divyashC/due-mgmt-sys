@@ -19,18 +19,15 @@ const RestoredCheckboxModal = ({ isOpen, onClose, onConfirm }) => {
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
 			<div className="relative w-auto max-w-3xl mx-auto my-6">
-				{/* Content */}
 				<div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
-					{/* Header */}
-					{/* Body */}
-					<div className="relative flex-auto p-6">
+					<div className="relative flex flex-row justify-center flex-auto p-6 align-middle">
 						<div className="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-red-100 rounded-full sm:mx-0 sm:h-10 sm:w-10">
 							<ExclamationTriangleIcon
 								className="w-6 h-6 text-red-600"
 								aria-hidden="true"
 							/>
 						</div>
-						<p className="text-gray-600">
+						<p className="mt-2 ml-5 text-gray-600">
 							Are you sure you want to mark this item as restored?
 						</p>
 					</div>
