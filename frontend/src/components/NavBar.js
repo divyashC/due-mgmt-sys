@@ -21,7 +21,7 @@ const NavBar = ({ children }) => {
 	return (
 		<>
 			<nav className="flex items-center justify-between px-4 pt-4 pb-2 border-b-2 border-gray-200">
-				<img src={Logo} className="h-14" />
+				<img src={Logo} className="h-14" alt="CST" />
 				<div className="flex items-center">
 					<ul className="flex space-x-4">
 						<Link

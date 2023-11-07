@@ -63,7 +63,6 @@ const Dashboard = () => {
 								onClick={() => handleMenuItemClick("Pending Dues")}
 								className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
 							>
-								<i className="bi bi-clock-fill"></i>
 								<span className="flex-1 ml-3 whitespace-nowrap">
 									Pending Dues
 								</span>
@@ -135,9 +134,9 @@ const Dashboard = () => {
 								<ul className="mt-2 ml-8 space-y-2">
 									{/* Dummy submenu items */}
 									<li>
-										<div className="px-3" onClick={handleCivilEngineeringClick}>
-											{" "}
-											Human and Science
+										<div className="px-2" onClick={handleCivilEngineeringClick}>
+											<i class="bi bi-person-fill"></i>{" "}
+											<span className="p-0">Human and Science</span>
 											{showCivilEngineeringSubMenu ? (
 												<i
 													className={`bi bi-caret-up-fill ml-2 text-gray-600 transition-colors duration-300`}
@@ -153,18 +152,24 @@ const Dashboard = () => {
 											<ul>
 												<li>
 													<div
-														className="px-5 "
+														className="p-2 ml-5"
 														onClick={() => handleSubMenuItemClick("Chemistry")}
 													>
-														<button>Chemistry Lab</button>
+														<i class="bi bi-eyedropper"></i>
+														<span className="p-2">
+															<button>Chemistry Lab</button>
+														</span>
 													</div>
 												</li>
 												<li>
 													<div
-														className="px-5 "
+														className="p-2 ml-5"
 														onClick={() => handleSubMenuItemClick("Physics")}
 													>
-														<button>Physics Lab</button>
+														<i class="bi bi-magnet-fill"></i>
+														<span className="p-2">
+															<button>Physics Lab</button>
+														</span>
 													</div>
 												</li>
 												{/* Add more submenu items for Civil Engineering */}
@@ -172,9 +177,9 @@ const Dashboard = () => {
 										)}
 									</li>
 									<li>
-										<div className="px-3" onClick={handleArchitectureClick}>
-											{" "}
-											IT Department
+										<div className="p-2" onClick={handleArchitectureClick}>
+											<i class="bi bi-laptop-fill"></i>{" "}
+											<span className="p-0">IT Department</span>
 											{showArchitectureSubMenu ? (
 												<i
 													className={`bi bi-caret-up-fill ml-2 text-gray-600 transition-colors duration-300`}
@@ -189,10 +194,13 @@ const Dashboard = () => {
 											<ul>
 												<li>
 													<div
-														className="px-5 "
+														className="p-2 ml-5"
 														onClick={() => handleSubMenuItemClick("NLP")}
 													>
-														<button> NLP Lab</button>
+														<i class="bi bi-laptop"></i>
+														<span className="p-2">
+															<button> NLP Lab</button>
+														</span>
 													</div>
 												</li>
 

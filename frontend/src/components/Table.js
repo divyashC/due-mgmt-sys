@@ -1,6 +1,4 @@
 import React from "react";
-import AddBtn from "./AddBtn";
-import SearchBar from "./SearchBar";
 
 const Table = () => {
 	return (

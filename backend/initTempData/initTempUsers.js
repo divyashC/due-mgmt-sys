@@ -1,7 +1,7 @@
 // Initialize users with hashed passwords
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const User = require("./models/User");
+const User = require("../models/User");
 
 // Your user data array
 const usersData = [
@@ -12,7 +12,34 @@ const usersData = [
 		department: "Information Technology Department",
 		userType: "Student",
 		role: "Year 4 - Sem 7",
-		password: "Cst@12345", // You should hash this password
+		password: "Cst@12345",
+	},
+	{
+		fullName: "Kiran Rai",
+		email: "02200155.cst@rub.edu.bt",
+		phoneNo: "17640475",
+		department: "Information Technology Department",
+		userType: "Student",
+		role: "Year 4 - Sem 7",
+		password: "Cst@12345",
+	},
+	{
+		fullName: "Karsel Dawa",
+		email: "02200148.cst@rub.edu.bt",
+		phoneNo: "17627753",
+		department: "Information Technology Department",
+		userType: "Student",
+		role: "Year 4 - Sem 7",
+		password: "Cst@12345",
+	},
+	{
+		fullName: "Thinley Choden",
+		email: "02200169.cst@rub.edu.bt",
+		phoneNo: "17339683",
+		department: "Information Technology Department",
+		userType: "Student",
+		role: "Year 4 - Sem 7",
+		password: "Cst@12345",
 	},
 	{
 		fullName: "Karma Chophel",
@@ -21,7 +48,7 @@ const usersData = [
 		department: "Science & Humanities Department",
 		userType: "Staff",
 		role: "Physics Lab Incharge",
-		password: "Cst@12345", // You should hash this password
+		password: "Cst@12345",
 	},
 	{
 		fullName: "Passang Dema",
@@ -30,7 +57,7 @@ const usersData = [
 		department: "Administration Department",
 		userType: "Admin",
 		role: "Adm Assistant",
-		password: "Cst@12345", // You should hash this password
+		password: "Cst@12345",
 	},
 	{
 		fullName: "Jiwan Gurung",
@@ -39,34 +66,25 @@ const usersData = [
 		department: "ICT Department",
 		userType: "ICT",
 		role: "ICT Officer",
-		password: "Cst@12345", // You should hash this password
+		password: "Cst@12345",
 	},
 	{
-		fullName: "Nidup",
-		email: "nidup.cst@rub.edu.bt",
+		fullName: "Gyembo Dorji",
+		email: "gyembodorji.cst@rub.edu.bt",
 		phoneNo: "17171717",
-		department: "SCIENCE AND HUMANITIES DEPARTMENT",
-		userType: "Staff",
-		role: "Physic Lab Incharge",
-		password: "Cst@12345", // You should hash this password
-	},
-	{
-		fullName: "Yeshi",
-		email: "yeshi.cst@rub.edu.bt",
-		phoneNo: "17171717",
-		department: "SCIENCE AND HUMANITIES DEPARTMENT",
+		department: "Science & Humanities Department",
 		userType: "Staff",
 		role: "Chemistry Lab Incharge",
-		password: "Cst@12345", // You should hash this password
+		password: "Cst@12345",
 	},
 	{
-		fullName: "Wangchuk",
-		email: "wangchuk.cst@rub.edu.bt",
+		fullName: "Wangchuk Singye",
+		email: "wangchuksingye.cst@rub.edu.bt",
 		phoneNo: "17171717",
-		department: "IT DEPARTMENT",
+		department: "IT Department",
 		userType: "Staff",
 		role: "NLP Lab Incharge",
-		password: "Cst@12345", // You should hash this password
+		password: "Cst@12345",
 	},
 ];
 

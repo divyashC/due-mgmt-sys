@@ -1,5 +1,4 @@
 import React from "react";
-import DoughnutChart from "./DoughnutChart";
 import LineChart from "./LineChart";
 
 const PendingDues = () => {

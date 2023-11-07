@@ -1,30 +1,9 @@
 import React from "react";
-import DoughnutChart from "./DoughnutChart";
 
-const Table = () => {
-	const chartData1 = {
-		labels: ["Restored", "Not Restored"],
-		datasets: [
-			{
-				data: [300, 50],
-				backgroundColor: ["#008000", "#FF0000"],
-				// hoverBackgroundColor: ["#0056b3", "#d39e00"],
-			},
-		],
-	};
-
-	const chartOptions1 = {
-		cutout: "60%",
-	};
+const AdministrationTable = () => {
 	return (
-		<div className="flex flex-col">
-			<DoughnutChart
-				data={chartData1}
-				options={chartOptions1}
-				title="Damaged Item Status"
-			/>
-
-			<div className="relative mx-12 mt-10 mb-20 overflow-x-auto shadow-md sm:rounded-lg">
+		<>
+			<div className="relative mx-12 mt-10 overflow-x-auto shadow-md sm:rounded-lg">
 				<table className="w-full text-sm text-left text-gray-500">
 					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
 						<tr>
@@ -38,13 +17,16 @@ const Table = () => {
 								<div className="flex items-center">Incharge</div>
 							</th>
 							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Amount</div>
+							</th>
+							<th scope="col" className="px-6 py-3">
 								<div className="flex items-center">Item Damaged</div>
 							</th>
 							<th scope="col" className="px-6 py-3">
-								<div className="flex items-center">Item Cost</div>
+								<div className="flex items-center">Remarks</div>
 							</th>
 							<th scope="col" className="px-6 py-3">
-								<div className="flex items-center">Status</div>
+								<span className="sr-only">Edit</span>
 							</th>
 						</tr>
 					</thead>
@@ -58,9 +40,10 @@ const Table = () => {
 							</th>
 							<td className="px-6 py-4">Physics Lab</td>
 							<td className="px-6 py-4">Sonam Thinley</td>
-							<td className="px-6 py-4">Bicker</td>
-							<td className="px-6 py-4">Nu.300</td>
-							<td className="px-6 py-4">Restored</td>
+							<td className="px-6 py-4">Nu.340</td>
+							<td className="px-6 py-4">2 Magnifying Class</td>
+
+							<td className="px-6 py-4 text-start">Not Paid</td>
 						</tr>
 
 						<tr className="bg-white border-b">
@@ -70,17 +53,18 @@ const Table = () => {
 							>
 								2
 							</th>
-							<td className="px-6 py-4">Chemistry Lab</td>
-							<td className="px-6 py-4">Thinley</td>
-							<td className="px-6 py-4">Sono Meter</td>
-							<td className="px-6 py-4">Nu.2000</td>
-							<td className="px-6 py-4">Not Restored</td>
+							<td className="px-6 py-4">Physics Lab</td>
+							<td className="px-6 py-4">Sonam Thinley</td>
+							<td className="px-6 py-4">Nu.340</td>
+							<td className="px-6 py-4">Sonometer</td>
+
+							<td className="px-6 py-4 text-start">Not Paid</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-		</div>
+		</>
 	);
 };
 
-export default Table;
+export default AdministrationTable;
