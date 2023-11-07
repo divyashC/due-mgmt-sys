@@ -6,14 +6,14 @@ const dueData = [
 		name: "Divyash Chhetri",
 		stdNo: "02200174",
 		phoneNo: "17358766",
-		amount: 80.0,
+		amount: 50.0,
 		date: "15/09/2023",
 		remarks: "First semester dues, broke a beaker",
 		labInchargeName: "Gyembo Dorji",
 		labName: "Chemistry Lab",
 		dept: "Science & Humanities Department",
 		item: "Beaker 100ml",
-		dues: "unpaid",
+		dues: "paid",
 	},
 	{
 		name: "Kiran Rai",
@@ -39,7 +39,7 @@ const dueData = [
 		labName: "NLP Lab",
 		item: "Dell Keyboard",
 		dept: "IT Department",
-		dues: "unpaid",
+		dues: "paid",
 	},
 ];
 

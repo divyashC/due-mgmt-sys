@@ -4,6 +4,8 @@ const cors = require("cors");
 const userController = require("./controllers/userController"); // Import the userController
 const duesController = require("./controllers/dueController"); // Import the dueController
 const restoredController = require("./controllers/restoredController"); // Import the restoredController
+const dataSummaryController = require("./controllers/dataSummaryController"); // Import the dataSummaryController
+const graphDataController = require("./controllers/graphDataController"); // Import the graphDataController
 require("dotenv").config();
 
 // user expressAsyncHandler
@@ -43,6 +45,44 @@ app.get("/getDueByStudentNo/:stdNo", duesController.getDueByStudentNo);
 // Routes for restored items
 app.post("/insertRestoredItem", restoredController.insertRestoredItem);
 app.get("/getAllRestoredItems", restoredController.getAllRestoredItems);
+
+// Routes for data summary
+app.get("/datasummary", async (req, res) => {
+	try {
+		const amountCollected =
+			await dataSummaryController.calculateAmountCollected();
+		const amountDue = await dataSummaryController.calculateAmountDue();
+		const itemsDamaged = await dataSummaryController.calculateItemsDamaged();
+		const studentsWithDues =
+			await dataSummaryController.calculateStudentsWithDues();
+
+		res.json({
+			amountCollected,
+			amountDue,
+			itemsDamaged,
+			studentsWithDues,
+		});
+	} catch (error) {
+		console.error("Error getting data summary: ", error);
+		res.status(500).json({ error: "Internal server error" });
+	}
+});
+
+// Routes for graphs data
+app.get("/labNames", graphDataController.getLabNames);
+app.get("/labAmount/:labName", graphDataController.getLabAmount);
+app.get("/labItemsDamaged/:labName", graphDataController.getLabItemsDamaged);
+app.get(
+	"/amountCollectedPerMonth",
+	graphDataController.getAmountCollectedPerMonth
+);
+app.get("/getAllLabAmount", graphDataController.getAllLabAmount);
+app.get("/getAllLabItemsDamaged", graphDataController.getAllLabItemsDamaged);
+app.get("/itemsDamagedPerMonth", graphDataController.getItemsDamagedPerMonth);
+app.get(
+	"/getItemsRestoredPerMonth",
+	graphDataController.getItemsRestoredPerMonth
+);
 
 app.listen(8000, () => {
 	console.log("Server has started on port 8000");
