@@ -11,20 +11,7 @@ const Profile = () => {
 	const userDetails = JSON.parse(localStorage.getItem("userDetails"));
 	const userType = userDetails ? userDetails.userType : null;
 
-	if (userDetails === null) {
-		localStorage.setItem(
-			"userDetails",
-			JSON.stringify({
-				fullName: "Karma Chophel",
-				email: "karmachophel.cst@rub.edu.bt",
-				phoneNo: "17171717",
-				department: "Science & Humanities Department",
-				userType: "Staff",
-				role: "Physics Lab Incharge",
-				password: "Cst@12345",
-			})
-		);
-	}
+	const getLabName = () => userDetails.role.replace("Incharge", "").trim();
 
 	return (
 		<>
@@ -38,7 +25,7 @@ const Profile = () => {
 							stdNo={userDetails.email.split("@")[0].split(".")[0]}
 						/>
 					)}
-					{userType === "Staff" && <Table />}
+					{userType === "Staff" && <Table labName={getLabName()} />}
 					{userType === "Admin" && <AdministrationTable />}
 				</div>
 			</div>

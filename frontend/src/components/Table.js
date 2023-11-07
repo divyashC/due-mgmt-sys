@@ -3,243 +3,293 @@ import ClearDuesModal from "./ClearDuesModal";
 import StudentDetailsModal from "./StudentDetailsModal";
 import AddBtn from "../components/AddBtn.js";
 import RestoredCheckboxModal from "./RestoredCheckboxModal.js";
-const Table = () => {
-  const [isClearDuesModalOpen, setIsClearDuesModalOpen] = useState(false);
-  const [isStudentDetailsModalOpen, setIsStudentDetailsModalOpen] = useState(
-    false
-  );
-  const [isDuesCleared, setIsDuesCleared] = useState(false);
+import { CurrencyBangladeshiIcon } from "@heroicons/react/24/outline";
 
-  const onClearDues = () => {
-    // Perform the logic to clear dues here
+const Table = ({ labName }) => {
+	const [duesData, setDuesData] = useState([]);
+	const [restoredData, setRestoredData] = useState([]);
 
-    // Set the state to indicate that dues are cleared
-    setIsDuesCleared(true);
-  }
+	useEffect(() => {
+		Promise.all([
+			fetch("http://localhost:8000/getDues").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getAllRestoredItems").then((response) =>
+				response.json()
+			),
+		])
+			.then(([duesData, restoredData]) => {
+				setDuesData(duesData);
+				setRestoredData(restoredData);
+			})
+			.catch((error) => {
+				console.error("Error fetching data: ", error);
+			});
+	}, []);
 
-  // State for student details modal
-  const [selectedStudent, setSelectedStudent] = useState(null); // Store selected student data
+	const filteredRestoredData = restoredData
+		.filter(
+			(item) => item.status === "not-restored" && item.labName === labName
+		)
+		.reduce((unique, item) => {
+			if (!unique.some((obj) => obj.itemName === item.itemName)) {
+				unique.push(item);
+			} else {
+				unique.find((obj) => obj.itemName === item.itemName).quantity +=
+					item.quantity;
+			}
+			return unique;
+		}, []);
 
-  const openClearDuesModal = () => {
-    setIsClearDuesModalOpen(true);
-  };
+	const [isClearDuesModalOpen, setIsClearDuesModalOpen] = useState(false);
+	const [isStudentDetailsModalOpen, setIsStudentDetailsModalOpen] =
+		useState(false);
+	const [isDuesCleared, setIsDuesCleared] = useState(false);
+	const [id, setId] = useState(null);
+	const [restoreId, setRestoreId] = useState(null);
 
-  const closeClearDuesModal = () => {
-    setIsClearDuesModalOpen(false);
-  };
+	const onClearDues = () => {
+		setIsDuesCleared(true);
+	};
 
-  const openStudentDetailsModal = (studentData) => {
-    setSelectedStudent(studentData);
-    setIsStudentDetailsModalOpen(true);
-  };
+	// State for student details modal
+	const [selectedStudent, setSelectedStudent] = useState(null); // Store selected student data
 
-  const closeStudentDetailsModal = () => {
-    setIsStudentDetailsModalOpen(false);
-  };
+	const clearDue = (id) => {
+		if (id) {
+			fetch(`http://localhost:8000/updateDues/${id}`, {
+				method: "PUT",
+			})
+				.then((response) => {
+					if (response.ok) {
+						// Successfully cleared dues
+						setIsDuesCleared(true);
+						setId(null);
+						fetch("http://localhost:8000/getDues")
+							.then((response) => response.json())
+							.then((data) => {
+								setDuesData(data);
+							})
+							.catch((error) => {
+								console.error("Error fetching data: ", error);
+							});
+					} else {
+						console.error("Failed to clear dues");
+					}
+				})
+				.catch((error) => {
+					console.error("Error calling the API: ", error);
+				});
+		} else {
+			console.error("Invalid id");
+		}
+	};
 
-  // Sample student data for demonstration
-  const studentData1 = {
-    name: "Kiran Rai",
-    stdNo: "12345",
-    phoneNumber: "123-456-7890",
-    amount: "$100",
-    date: "2023-01-01",
-    remarks: "Paid for the semester",
-    department: "Physics",
-    item: "Tuition Fee",
-    dues: "$0",
-  };
+	const openClearDuesModal = (id) => {
+		setId(id);
+		setIsClearDuesModalOpen(true);
+	};
 
-  // Sample student data for the second row
-  const studentData2 = {
-    name: "John Doe",
-    stdNo: "67890",
-    phoneNumber: "987-654-3210",
-    amount: "$120",
-    date: "2023-02-15",
-    remarks: "Paid for the semester",
-    department: "Mathematics",
-    item: "Lab Fee",
-    dues: "$10",
-  };
+	const closeClearDuesModal = () => {
+		setIsClearDuesModalOpen(false);
+	};
 
+	const openStudentDetailsModal = (studentData) => {
+		setSelectedStudent(studentData);
+		setIsStudentDetailsModalOpen(true);
+	};
 
-  //checkbox
-  const [isRestoredCheckboxModalOpen, setIsRestoredCheckboxModalOpen] = useState(false);
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+	const closeStudentDetailsModal = () => {
+		setIsStudentDetailsModalOpen(false);
+	};
 
-  const openRestoredCheckboxModal = () => {
-    setIsRestoredCheckboxModalOpen(true);
-  };
+	//checkbox
+	const [isRestoredCheckboxModalOpen, setIsRestoredCheckboxModalOpen] =
+		useState(false);
+	const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
-  const closeRestoredCheckboxModal = () => {
-    setIsRestoredCheckboxModalOpen(false);
-  };
+	const openRestoredCheckboxModal = (id) => {
+		setIsRestoredCheckboxModalOpen(true);
+	};
 
-  // const handleRestoredConfirmation = (confirmed) => {
-  //   if (confirmed) {
-  //     setIsCheckboxChecked(true); // Check the checkbox if confirmed
-  //   } else {
-  //     setIsCheckboxChecked(false); // Uncheck the checkbox if canceled
-  //   }
-  //   closeRestoredCheckboxModal();
-  // };
-  const [isRestored, setIsRestored] = useState(false);
+	const closeRestoredCheckboxModal = () => {
+		setIsRestoredCheckboxModalOpen(false);
+	};
 
-const handleRestoredConfirmation = (confirmed) => {
-  if (confirmed) {
-    setIsRestored(true); // Mark the item as restored
-  } else {
-    setIsRestored(false);
-  }
-  closeRestoredCheckboxModal();
-};
-  return (
-    <>
-      <div className="flex justify-end mr-12">
-        <AddBtn />
-      </div>
+	const [isRestored, setIsRestored] = useState(false);
 
-      <div className="relative mx-12 mt-10 overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                SL No.
-              </th>
-              <th scope="col" className="px-6 py-3">
-                <div className="flex items-center">Student Name</div>
-              </th>
-              <th scope="col" className="px-6 py-3">
-                <div className="flex items-center">Student ID</div>
-              </th>
-              <th scope="col" className="px-6 py-3">
-                <div className="flex items-center">Dues</div>
-              </th>
-              <th>
-                <button>Details</button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="bg-white border-b">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-              >
-                1
-              </th>
-              <td className="px-6 py-4">Physics Lab</td>
-              <td className="px-6 py-4">02200034</td>
-              <td className="px-6 py-4">Nu.340</td>
-              <td className="px-6 py-4">
-			  <td className="px-6 py-4">
-  <div className="flex items-center space-x-2">
-    <button
-      onClick={() => openStudentDetailsModal(studentData1)}
-      className={`bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 border border-green-500 rounded flex items-center`}
-    >
-      View Details
-    </button>
-    {!isDuesCleared ? (
-      <button
-        className={`bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-red-500 rounded flex items-center`}
-        onClick={openClearDuesModal}
-      >
-        Clear Dues
-      </button>
-    ) : (
-      <div className="flex items-center">Due Cleared</div>
-    )}
-  </div>
-</td>
+	const handleRestoredConfirmation = (confirmed) => {
+		if (confirmed) {
+			setIsRestored(true); // Mark the item as restored
+		} else {
+			setIsRestored(false);
+		}
+		closeRestoredCheckboxModal();
+	};
+	return (
+		<>
+			<div className="flex justify-end mr-12">
+				<AddBtn />
+			</div>
 
-</td>
-            </tr>
-            {/* Add a new row for the second student */}
-        
-          </tbody>
-        </table>
-      </div>
+			<div className="relative mx-12 mt-10 overflow-x-auto shadow-md sm:rounded-lg">
+				<table className="w-full text-sm text-left text-gray-500">
+					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
+						<tr>
+							<th scope="col" className="px-6 py-3">
+								SL No.
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Student Name</div>
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Student ID</div>
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Dues</div>
+							</th>
+							<th>
+								<button>Details</button>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{duesData.map((item, index) => {
+							if (item.labName === labName && item.dues === "unpaid") {
+								const localIndex =
+									duesData
+										.filter(
+											(items) =>
+												items.labName === labName && items.dues === "unpaid"
+										)
+										.indexOf(item) + 1;
+								return (
+									<tr className="bg-white border-b" key={index}>
+										<th
+											scope="row"
+											className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+										>
+											{localIndex}
+										</th>
+										<td className="px-6 py-4">{item.name}</td>
+										<td className="px-6 py-4">{item.stdNo}</td>
+										<td className="px-6 py-4">Nu. {item.amount}</td>
+										<td className="px-6 py-4">
+											<div className="flex items-center space-x-2">
+												<button
+													onClick={() =>
+														openStudentDetailsModal({
+															name: item.name,
+															stdNo: item.stdNo,
+															phoneNumber: item.phoneNo,
+															amount: `Nu. ${item.amount}`,
+															date: item.date,
+															remarks: item.remarks,
+															department: item.dept,
+															item: item.item,
+															dues: item.dues,
+														})
+													}
+													className={`bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 border border-green-500 rounded flex items-center`}
+												>
+													View Details
+												</button>
+												<button
+													className={`bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-red-500 rounded flex items-center`}
+													onClick={() => {
+														openClearDuesModal(item._id);
+													}} // Wrap in an arrow function
+												>
+													Clear Dues
+												</button>
+											</div>
+										</td>
+									</tr>
+								);
+							}
+						})}
+					</tbody>
+				</table>
+			</div>
 
-      <div className="relative mx-12 mt-10 overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                SL No.
-              </th>
-              <th scope="col" className="px-6 py-3">
-                <div className="flex items-center">Equipment Name</div>
-              </th>
-              <th scope="col" className="px-6 py-3">
-                <div className="flex items-center">Quantity</div>
-              </th>
-              
-              <th>Remarks</th>
-            </tr>
-          </thead>
-<tbody>          
-            <tr className="bg-white border-b">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-              >
-                1
-              </th>
-              <td className="px-6 py-4">Physics Lab</td>
-              <td className="px-6 py-4">02200034</td>
-              <td className="px-6 py-4">
-    {isRestored ? (
-      <div className="text-sm font-normal text-black">Item is restored</div>
+			<div className="relative mx-12 mt-10 overflow-x-auto shadow-md sm:rounded-lg">
+				<table className="w-full text-sm text-left text-gray-500">
+					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
+						<tr>
+							<th scope="col" className="px-6 py-3">
+								SL No.
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Equipment Name</div>
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<div className="flex items-center">Quantity</div>
+							</th>
 
-    ) : (
-      <div className="flex items-center">
-        <input
-          id="green-checkbox"
-          type="checkbox"
-          value=""
-          className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          checked={isCheckboxChecked}
-          onChange={openRestoredCheckboxModal}
-        />
-        <label
-          htmlFor="green-checkbox"
-          className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-        >
-          Restored
-        </label>
-      </div>
-    )}
-  </td>
+							<th>Remarks</th>
+						</tr>
+					</thead>
+					<tbody>
+						{filteredRestoredData.map((item, index) => (
+							<tr className="bg-white border-b">
+								<th
+									scope="row"
+									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+								>
+									{index + 1}
+								</th>
+								<td className="px-6 py-4">{item.itemName}</td>
+								<td className="px-6 py-4">
+									{item.quantity > 1 ? item.quantity - 1 : item.quantity}
+								</td>
+								<td className="px-6 py-4">
+									{isRestored ? (
+										<div className="text-sm font-normal text-black">
+											Item is restored
+										</div>
+									) : (
+										<div className="flex items-center">
+											<input
+												id="green-checkbox"
+												type="checkbox"
+												value=""
+												className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+												checked={isCheckboxChecked}
+												onChange={openRestoredCheckboxModal}
+											/>
+											<label
+												htmlFor="green-checkbox"
+												className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+											>
+												Restored
+											</label>
+										</div>
+									)}
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<ClearDuesModal
+				isOpen={isClearDuesModalOpen}
+				onClose={closeClearDuesModal}
+				onClear={() => clearDue(id)} // Wrap clearDue in an arrow function
+				onCancel={closeClearDuesModal} // Pass the function reference
+			/>
 
-        
-            </tr>
-</tbody>
-
-        </table>
-      </div>
-      <ClearDuesModal
-        isOpen={isClearDuesModalOpen}
-        onClose={closeClearDuesModal}
-        onClear={onClearDues}
-        onCancel={closeClearDuesModal}
-      />
-
-      <StudentDetailsModal
-        isOpen={isStudentDetailsModalOpen}
-        onClose={closeStudentDetailsModal}
-        studentData={selectedStudent}
-      />
-      <RestoredCheckboxModal
-        isOpen={isRestoredCheckboxModalOpen}
-        onClose={closeRestoredCheckboxModal}
-        onConfirm={handleRestoredConfirmation}
-      />
-    </>
-  );
+			<StudentDetailsModal
+				isOpen={isStudentDetailsModalOpen}
+				onClose={closeStudentDetailsModal}
+				studentData={selectedStudent}
+			/>
+			<RestoredCheckboxModal
+				isOpen={isRestoredCheckboxModalOpen}
+				onClose={closeRestoredCheckboxModal}
+				onConfirm={handleRestoredConfirmation}
+			/>
+		</>
+	);
 };
 
 export default Table;
-
-

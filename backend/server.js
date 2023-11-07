@@ -6,6 +6,8 @@ const duesController = require("./controllers/dueController"); // Import the due
 const restoredController = require("./controllers/restoredController"); // Import the restoredController
 const dataSummaryController = require("./controllers/dataSummaryController"); // Import the dataSummaryController
 const graphDataController = require("./controllers/graphDataController"); // Import the graphDataController
+const updateDueStatusController = require("./controllers/updateDueStatus");
+const updateRestoredStatusController = require("./controllers/updateRestoreStatus");
 require("dotenv").config();
 
 // user expressAsyncHandler
@@ -86,6 +88,15 @@ app.get(
 	graphDataController.getItemsRestoredPerMonth
 );
 app.get("/getDueAmountInLab", graphDataController.getDueAmountInLab);
+
+// Routes for updateDueStatus
+app.put("/updateDues/:_id", updateDueStatusController.updateDuesStatus);
+
+// Routes for updateRestoreStatus
+app.put(
+	"/updateRestored/:_id",
+	updateRestoredStatusController.updateRestoredStatus
+);
 
 app.listen(8000, () => {
 	console.log("Server has started on port 8000");
