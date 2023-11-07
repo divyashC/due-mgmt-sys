@@ -1,12 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DoughnutChart from "./DoughnutChart";
 
 const Table = () => {
+	const [duesData, setDuesData] = useState([]);
+	const [restoredData, setRestoredData] = useState([]);
+
+	useEffect(() => {
+		Promise.all([
+			fetch("http://localhost:8000/getDues").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getAllRestoredItems").then((response) =>
+				response.json()
+			),
+		])
+			.then(([duesData, restoredData]) => {
+				setDuesData(duesData);
+				setRestoredData(restoredData);
+			})
+			.catch((error) => {
+				console.error("Error fetching data: ", error);
+			});
+	}, []);
+
 	const chartData1 = {
 		labels: ["Restored", "Not Restored"],
 		datasets: [
 			{
-				data: [300, 50],
+				data: [
+					restoredData.filter((item) => item.status === "restored").length,
+					restoredData.filter((item) => item.status === "not-restored").length,
+				],
 				backgroundColor: ["#008000", "#FF0000"],
 				// hoverBackgroundColor: ["#0056b3", "#d39e00"],
 			},
@@ -49,33 +73,34 @@ const Table = () => {
 						</tr>
 					</thead>
 					<tbody>
-						<tr className="bg-white border-b">
-							<th
-								scope="row"
-								className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-							>
-								1
-							</th>
-							<td className="px-6 py-4">Physics Lab</td>
-							<td className="px-6 py-4">Sonam Thinley</td>
-							<td className="px-6 py-4">Bicker</td>
-							<td className="px-6 py-4">Nu.300</td>
-							<td className="px-6 py-4">Restored</td>
-						</tr>
-
-						<tr className="bg-white border-b">
-							<th
-								scope="row"
-								className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-							>
-								2
-							</th>
-							<td className="px-6 py-4">Chemistry Lab</td>
-							<td className="px-6 py-4">Thinley</td>
-							<td className="px-6 py-4">Sono Meter</td>
-							<td className="px-6 py-4">Nu.2000</td>
-							<td className="px-6 py-4">Not Restored</td>
-						</tr>
+						{duesData.map((item, index) => (
+							<tr className="bg-white border-b" key={index}>
+								<th
+									scope="row"
+									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+								>
+									{index + 1}
+								</th>
+								<td className="px-6 py-4">{item.labName}</td>
+								<td className="px-6 py-4">{item.labInchargeName}</td>
+								<td className="px-6 py-4">{item.item}</td>
+								<td className="px-6 py-4">Nu. {item.amount}</td>
+								<td className="px-6 py-4">
+									{restoredData.map((restoredItem) => {
+										if (
+											item.item === restoredItem.itemName &&
+											item.date === restoredItem.damagedDate
+										) {
+											if (restoredItem.date === "") {
+												return "Not Restored";
+											} else {
+												return restoredItem.status;
+											}
+										}
+									})}
+								</td>
+							</tr>
+						))}
 					</tbody>
 				</table>
 			</div>

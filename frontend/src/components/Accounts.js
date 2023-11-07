@@ -4,7 +4,6 @@ import BarChart from "./BarChart";
 const Table = () => {
 	const [duesData, setDuesData] = useState([]);
 	const [dataSummary, setDataSummary] = useState([]);
-	const [restoredData, setRestoredData] = useState([]);
 	const [labAmount, setLabAmount] = useState([]);
 	const [labDues, setLabDues] = useState([]);
 	const [labNames, setLabNames] = useState([]);
@@ -17,9 +16,6 @@ const Table = () => {
 			fetch("http://localhost:8000/getDues").then((response) =>
 				response.json()
 			),
-			fetch("http://localhost:8000/getAllRestoredItems").then((response) =>
-				response.json()
-			),
 			fetch("http://localhost:8000/getAllLabAmount").then((response) =>
 				response.json()
 			),
@@ -30,23 +26,13 @@ const Table = () => {
 				response.json()
 			),
 		])
-			.then(
-				([
-					dataSummary,
-					duesData,
-					restoredData,
-					labAmount,
-					labDues,
-					labNames,
-				]) => {
-					setDataSummary(dataSummary);
-					setDuesData(duesData);
-					setRestoredData(restoredData);
-					setLabAmount(labAmount);
-					setLabDues(labDues);
-					setLabNames(labNames);
-				}
-			)
+			.then(([dataSummary, duesData, labAmount, labDues, labNames]) => {
+				setDataSummary(dataSummary);
+				setDuesData(duesData);
+				setLabAmount(labAmount);
+				setLabDues(labDues);
+				setLabNames(labNames);
+			})
 			.catch((error) => {
 				console.error("Error fetching data: ", error);
 			});
