@@ -3,15 +3,29 @@ import LineChart from "./LineChart";
 
 const PendingDues = () => {
 	const [duesData, setDuesData] = useState([]);
+	const [dues, setDues] = useState([]);
+	const [restoredData, setRestoredData] = useState([]);
 
 	useEffect(() => {
-		// Make an API call to fetch dues data
-		fetch("http://localhost:8000/getDueAmountInLab")
-			.then((response) => response.json())
-			.then((data) => {
-				setDuesData(data);
+		Promise.all([
+			fetch("http://localhost:8000/getDueAmountInLab").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getDues").then((response) =>
+				response.json()
+			),
+			fetch("http://localhost:8000/getAllRestoredItems").then((response) =>
+				response.json()
+			),
+		])
+			.then(([duesData, dues, restoredData]) => {
+				setDuesData(duesData);
+				setDues(dues);
+				setRestoredData(restoredData);
 			})
-			.catch((error) => console.error("Error fetching data:", error));
+			.catch((error) => {
+				console.error("Error fetching data: ", error);
+			});
 	}, []);
 
 	const lineChartData = {
@@ -95,37 +109,39 @@ const PendingDues = () => {
 						</tr>
 					</thead>
 					<tbody>
-						<tr className="bg-white border-b">
-							<th
-								scope="row"
-								className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-							>
-								1
-							</th>
-							<td className="px-6 py-4">Chemistry Lab</td>
-							<td className="px-6 py-4">Gembo</td>
-							<td className="px-6 py-4">Beaker</td>
-							<td className="px-6 py-4">2023-08-01</td>
-							<td className="px-6 py-4">Nu.300</td>
-							<td className="px-6 py-4">2023-08-05</td>
-							<td className="px-6 py-4">Restored</td>
-						</tr>
-
-						<tr className="bg-white border-b">
-							<th
-								scope="row"
-								className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-							>
-								2
-							</th>
-							<td className="px-6 py-4">Physics Lab</td>
-							<td className="px-6 py-4">Karma Chophel</td>
-							<td className="px-6 py-4">Sono Meter</td>
-							<td className="px-6 py-4">2023-08-02</td>
-							<td className="px-6 py-4">Nu.2000</td>
-							<td className="px-6 py-4">N/A</td>
-							<td className="px-6 py-4">Not Restored</td>
-						</tr>
+						{dues.map((data, index) => (
+							<tr className="bg-white border-b" key={index}>
+								<th
+									scope="row"
+									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+								>
+									{index + 1}
+								</th>
+								<td className="px-6 py-4">{data.labName}</td>
+								<td className="px-6 py-4">{data.labInchargeName}</td>
+								<td className="px-6 py-4">{data.item}</td>
+								<td className="px-6 py-4 text-start">{data.date}</td>
+								<td className="px-6 py-4">Nu. {data.amount}</td>
+								<td className="px-6 py-4 text-start">
+									{restoredData.map((restoredItem) => {
+										if (data.item === restoredItem.itemName) {
+											if (restoredItem.date === "") {
+												return "Not Restored";
+											} else {
+												return restoredItem.date;
+											}
+										}
+									})}
+								</td>
+								<td className="px-6 py-4 text-start">
+									{restoredData.map((restoredItem) =>
+										data.item === restoredItem.itemName
+											? restoredItem.status
+											: null
+									)}
+								</td>
+							</tr>
+						))}
 					</tbody>
 				</table>
 			</div>

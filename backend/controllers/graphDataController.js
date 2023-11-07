@@ -70,6 +70,34 @@ const getAmountCollectedPerMonth = async (req, res) => {
 	}
 };
 
+// Function to fetch amount due per month
+const getAmountDuePerMonth = async (req, res) => {
+	try {
+		const duesData = await Dues.find({ dues: "unpaid" }); // Fetch only paid dues data
+		const months = Array.from({ length: 12 }, (_, i) =>
+			(i + 1).toString().padStart(2, "0")
+		);
+
+		const amountCollectedPerMonth = months.map((month) => {
+			const itemsInMonth = duesData.filter((item) => {
+				const itemDate = item.date.split("/");
+				return itemDate[1] === month;
+			});
+
+			const totalAmount = itemsInMonth.reduce(
+				(sum, item) => sum + item.amount,
+				0
+			);
+			return totalAmount.toFixed(2);
+		});
+
+		res.json(amountCollectedPerMonth);
+	} catch (error) {
+		console.error("Error fetching amount due per month: ", error);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+
 // Function to fetch items damaged per month
 const getItemsDamagedPerMonth = async (req, res) => {
 	try {
@@ -191,6 +219,7 @@ module.exports = {
 	getLabAmount,
 	getLabItemsDamaged,
 	getAmountCollectedPerMonth,
+	getAmountDuePerMonth,
 	getItemsDamagedPerMonth,
 	getAllLabAmount,
 	getAllLabItemsDamaged,
