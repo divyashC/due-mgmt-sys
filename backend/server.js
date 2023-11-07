@@ -76,6 +76,7 @@ app.get(
 	"/amountCollectedPerMonth",
 	graphDataController.getAmountCollectedPerMonth
 );
+app.get("/amountDuePerMonth", graphDataController.getAmountDuePerMonth);
 app.get("/getAllLabAmount", graphDataController.getAllLabAmount);
 app.get("/getAllLabItemsDamaged", graphDataController.getAllLabItemsDamaged);
 app.get("/itemsDamagedPerMonth", graphDataController.getItemsDamagedPerMonth);
