@@ -18,7 +18,7 @@ const ProfileCard = () => {
 				className="absolute w-40 rounded-full -top-4 -left-4"
 				alt="User Avatar"
 			/>
-			<div className="flex flex-col items-center justify-center h-full p-4 ml-8 space-y-4 bg-gray-200 w-min rounded-3xl">
+			<div className="flex flex-col items-center justify-center p-4 ml-8 space-y-4 bg-gray-200 h-fit w-min rounded-3xl">
 				<p className="mt-8 text-2xl font-semibold text-gray-950">
 					{userData.fullName}
 				</p>

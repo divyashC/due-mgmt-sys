@@ -268,13 +268,13 @@ const DashboardHome = () => {
 							<dt className="text-base leading-7 text-sky-950">
 								Amount Collected
 							</dt>
-							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
+							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-4xl">
 								Nu. {dataSummary.amountCollected}
 							</dd>
 						</div>
 						<div className="flex flex-col max-w-xs p-5 mx-auto rounded-lg gap-y-2 bg-blue-50">
 							<dt className="text-base leading-7 text-sky-950">Amount Due</dt>
-							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
+							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-4xl">
 								Nu. {dataSummary.amountDue}
 							</dd>
 						</div>
@@ -282,7 +282,7 @@ const DashboardHome = () => {
 							<dt className="text-base leading-7 text-sky-950">
 								Items Damaged
 							</dt>
-							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
+							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-4xl">
 								{dataSummary.itemsDamaged}
 							</dd>
 						</div>
@@ -290,7 +290,7 @@ const DashboardHome = () => {
 							<dt className="text-base leading-7 text-sky-950">
 								Students with Dues
 							</dt>
-							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-5xl">
+							<dd className="order-first text-3xl font-semibold tracking-tight text-sky-900 sm:text-4xl">
 								{dataSummary.studentsWithDues}
 							</dd>
 						</div>
