@@ -5,8 +5,8 @@ import StudentTable from "../components/StudentTable.js";
 import AdministrationTable from "../components/AdministrationTable.js";
 
 const Profile = () => {
-	const [isClearDuesModalOpen, setIsClearDuesModalOpen] = useState(false);
-	const [duesCleared, setDuesCleared] = useState(false); // New state variable
+	// const [isClearDuesModalOpen, setIsClearDuesModalOpen] = useState(false);
+	// const [duesCleared, setDuesCleared] = useState(false); // New state variable
 
 	const userDetails = JSON.parse(localStorage.getItem("userDetails"));
 	const userType = userDetails ? userDetails.userType : null;

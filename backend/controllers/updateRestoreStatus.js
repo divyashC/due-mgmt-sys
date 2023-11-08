@@ -3,11 +3,19 @@ const Restored = require("../models/Restored");
 const updateRestoredStatus = async (req, res) => {
 	try {
 		const { _id } = req.params; // Assuming you are passing the _id as a request parameter
+		const todayDate = new Date();
+		const today =
+			String(todayDate.getDate()).padStart(2, "0") +
+			"/" +
+			String(todayDate.getMonth() + 1).padStart(2, "0") +
+			"/" +
+			todayDate.getFullYear();
 
 		// Update the document in the database
 		const updatedRestored = await Restored.findByIdAndUpdate(
 			_id,
 			{ status: "restored" },
+			{ date: today },
 			{ new: true } // To get the updated document
 		);
 

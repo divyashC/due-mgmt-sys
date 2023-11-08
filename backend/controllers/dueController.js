@@ -9,6 +9,7 @@ exports.insertDue = async (req, res) => {
 			stdNo,
 			phoneNo,
 			amount,
+			item,
 			date,
 			remarks,
 			labInchargeName,
@@ -28,6 +29,7 @@ exports.insertDue = async (req, res) => {
 			labInchargeName,
 			labName,
 			dept,
+			item,
 			dues,
 		});
 
@@ -63,6 +65,3 @@ exports.getDueByStudentNo = async (req, res) => {
 		res.status(500).json({ error: "Internal server error" });
 	}
 };
-
-//show samople request
-// https://localhost:8000/getDueByStudentNo/02200174
