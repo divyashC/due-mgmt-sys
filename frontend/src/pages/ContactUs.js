@@ -9,26 +9,28 @@ import ContactForm from "../components/ContactForm.js";
 const initialData = [
 	{
 		attributes: {
-			question: "New Question 1?",
-			answer: "Answer to New Question 1.",
+			question: "How do I create a new due entry in the system?",
+			answer: `To create a new due entry, log in to your account and navigate to the "Add Due" section. Fill in the required details, such as the student's name, student number, due amount, due date, and any additional information. Click "Submit" to create the due entry.`,
 		},
 	},
 	{
 		attributes: {
-			question: "New Question 2?",
-			answer: "Answer to New Question 2.",
+			question: "Can I edit or update an existing due entry?",
+			answer: `Yes, you can edit or update an existing due entry. Locate the due entry you want to modify in the system, click on it to open the details, and then select the "Edit" option. Make the necessary changes and save the updated information.`,
 		},
 	},
 	{
 		attributes: {
-			question: "New Question 3?",
-			answer: "Answer to New Question 3.",
+			question:
+				"How can I view the list of all dues or filter dues based on specific criteria?",
+			answer: `To view a list of all dues, go to the "View Dues" or "Due List" section. You can filter dues by various criteria, including student name, due date, department, and more. Use the filter options provided to refine your search and view specific sets of dues.`,
 		},
 	},
 	{
 		attributes: {
-			question: "New Question 4?",
-			answer: "Answer to New Question 4.",
+			question:
+				"What should I do if I encounter an issue or have questions about the system?",
+			answer: `If you encounter any issues while using the Due Management System or have questions about its functionality, please contact our support team. You can reach out to our support by visiting the "Contact Us" or "Support" section on the system's website. Our team will assist you in resolving any problems or answering your questions.`,
 		},
 	},
 ];
