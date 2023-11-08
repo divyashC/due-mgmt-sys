@@ -38,6 +38,8 @@ connectDB();
 // Routes for users
 app.post("/login", userController.loginUser);
 app.get("/getUsers", userController.getAllUsers);
+// app.post("/addUser", userController.insertUser);
+app.post("/addUserfromCSV", userController.addUserfromCSV);
 
 // Routes for dues
 app.post("/insertDues", duesController.insertDue);

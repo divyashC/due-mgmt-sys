@@ -56,6 +56,13 @@ const StudentTable = ({ stdNo }) => {
 								<td className="px-6 py-4">{due.remarks}</td>
 							</tr>
 						))}
+						{studentDues.length === 0 && (
+							<tr className="bg-white border-b">
+								<td colSpan="7" className="px-6 py-4 text-center">
+									No dues found
+								</td>
+							</tr>
+						)}
 					</tbody>
 				</table>
 			</div>

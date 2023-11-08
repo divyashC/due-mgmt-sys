@@ -34,6 +34,113 @@ exports.createUser = async (req, res) => {
 	}
 };
 
+// exports.addUsers = async (req, res) => {
+// 	try {
+// 		// Extract user data from the request body
+// 		const { fullName, email, phoneNo, department, userType, role, password } =
+// 			req.body;
+
+// 		// Check if the user already exists
+// 		const existingUser = await User.findOne({ email });
+// 		if (existingUser) {
+// 			return res.status(400).json({ error: "User already exists" });
+// 		}
+
+// 		// Hash the password before saving it to the database
+// 		const hashedPassword = await bcrypt.hash(password, 10);
+
+// 		// Create a new user
+// 		const newUser = new User({
+// 			fullName,
+// 			email,
+// 			phoneNo,
+// 			department,
+// 			userType,
+// 			role,
+// 			password: hashedPassword,
+// 		});
+
+// 		// Save the new user to the database
+// 		await newUser.save();
+
+// 		// Respond with a success message or user data as needed
+// 		res.status(201).json({ message: "User created successfully" });
+// 	} catch (error) {
+// 		// Handle errors, e.g., duplicate email, validation errors, etc.
+// 		res.status(400).json({ error: "Failed to create user" });
+// 	}
+// };
+
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" }); // Define the upload directory
+
+const fs = require("fs"); // Import the file system module
+
+exports.addUserfromCSV = [
+	upload.single("file"), // Make sure this field name matches your frontend
+	async (req, res) => {
+		if (!req.file) {
+			return res.status(400).json({ error: "No file uploaded" });
+		}
+
+		const csvFilePath = req.file.path;
+		const csv = require("csvtojson");
+
+		try {
+			const jsonObj = await csv().fromFile(csvFilePath);
+
+			for (const user of jsonObj) {
+				const {
+					fullName,
+					email,
+					phoneNo,
+					department,
+					userType,
+					role,
+					password,
+				} = user;
+
+				// Check if the user already exists
+				const existingUser = await User.findOne({ email });
+				if (existingUser) {
+					return res.status(400).json({ error: "User already exists" });
+				}
+
+				// Hash the password before saving it to the database
+				const hashedPassword = await bcrypt.hash(password, 10);
+
+				// Create a new user
+				const newUser = new User({
+					fullName,
+					email,
+					phoneNo,
+					department,
+					userType,
+					role,
+					password: hashedPassword,
+				});
+
+				// Save the new user to the database
+				await newUser.save();
+			}
+
+			// Delete the uploaded file
+			fs.unlink(csvFilePath, (err) => {
+				if (err) {
+					console.error("Error deleting file:", err);
+				} else {
+					console.log("File deleted successfully");
+				}
+			});
+
+			res.status(201).json({ message: "Users added successfully" });
+		} catch (error) {
+			console.error("Error processing CSV file:", error);
+			res.status(500).json({ error: "Internal server error" });
+		}
+	},
+];
+
 exports.loginUser = async (req, res) => {
 	try {
 		const { email, password } = req.body;
